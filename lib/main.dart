@@ -84,42 +84,39 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("Ejercicio Card"),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Container(
+          height: 180,
+          width:300,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20), color: Color.fromARGB(255, 0, 106, 255),),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //banco 
+           Row(children: [Text("BancaApp",style: TextStyle(color: Colors.white,fontSize: 22,),),
+           SizedBox(width: 100,),Text("Credito",style: TextStyle(color:Colors.white),)],), 
+                //chip
+            Row(children: [Icon(Icons.cell_tower,color:Colors.white,) ,Icon(Icons.credit_card,color:Color.fromARGB(148, 247, 245, 245),),
+            SizedBox(height: 10,),Image(image:AssetImage("assets/images/chip.png"))],),       
+              //N tarjeta
+            Text("5255667891927272",style: TextStyle(color:Colors.white,fontSize: 20),),    
+            SizedBox(height: 10,),            
+            //vencimiento
+            Row(children: [Text("Valido Hasta:",style: TextStyle(color: Colors.white,fontSize: 10),),SizedBox(width: 5,),Text("07/27",style: TextStyle(color:Colors.white,fontSize: 16),)],),
+            SizedBox(height: 1,),
+            //titular
+            Row(children: [Text("Diego L. Poot Uc",style: TextStyle(color:Colors.white,fontSize: 16),),
+            SizedBox(height: 8,),SizedBox(width: 65,),Text("BancaApp",style: TextStyle(color:Colors.white),)])
+          
+          ]),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
