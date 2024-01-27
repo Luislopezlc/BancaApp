@@ -94,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Container(
-          height: 180,
-          width:300,
+          height: 1800,
+          width:3000,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20), color: Color.fromARGB(255, 0, 106, 255),),
@@ -103,17 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //banco 
-            MyTable(), 
             CardsDemo(),
-              //N tarjeta
-            NumberCard(),    
-            SizedBox(height: 10,),            
-            //vencimiento
-            Row(children: [Text("Valido Hasta:",style: TextStyle(color: Colors.white,fontSize: 10),),SizedBox(width: 5,),Text("07/27",style: TextStyle(color:Colors.white,fontSize: 16),)],),
-            SizedBox(height: 1,),
-            //titular
-            Row(children: [Text("Diego L. Poot Uc",style: TextStyle(color:Colors.white,fontSize: 16),),
-            SizedBox(height: 8,),SizedBox(width: 65,),Text("BancaApp",style: TextStyle(color:Colors.white),)])
           
           ]),
         ),
