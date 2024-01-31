@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MiApp extends StatelessWidget {
+class DemoWidget extend  StatelessWidget {
   @override
   Widget build(BuildContext context) (
-    return const Text("BancaApp text");
+    return const Text("Demo text");
   )
 }
