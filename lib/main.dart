@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/presentation/widgets/CardSF.dart';
+import 'package:flutter_application_1/core/presentation/widgets/mytable.dart';
+
+import 'core/presentation/widgets/numberCard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -90,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Container(
-          height: 180,
-          width:300,
+          height: 1800,
+          width:3000,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20), color: Color.fromARGB(255, 0, 106, 255),),
@@ -99,20 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //banco 
-           Row(children: [Text("BancaApp",style: TextStyle(color: Colors.white,fontSize: 22,),),
-           SizedBox(width: 100,),Text("Credito",style: TextStyle(color:Colors.white),)],), 
-                //chip
-            Row(children: [Icon(Icons.cell_tower,color:Colors.white,) ,Icon(Icons.credit_card,color:Color.fromARGB(148, 247, 245, 245),),
-            SizedBox(height: 10,),Image(image:AssetImage("assets/images/chip.png"))],),       
-              //N tarjeta
-            Text("5255667891927272",style: TextStyle(color:Colors.white,fontSize: 20),),    
-            SizedBox(height: 10,),            
-            //vencimiento
-            Row(children: [Text("Valido Hasta:",style: TextStyle(color: Colors.white,fontSize: 10),),SizedBox(width: 5,),Text("07/27",style: TextStyle(color:Colors.white,fontSize: 16),)],),
-            SizedBox(height: 1,),
-            //titular
-            Row(children: [Text("Diego L. Poot Uc",style: TextStyle(color:Colors.white,fontSize: 16),),
-            SizedBox(height: 8,),SizedBox(width: 65,),Text("BancaApp",style: TextStyle(color:Colors.white),)])
+            CardsDemo(),
           
           ]),
         ),
