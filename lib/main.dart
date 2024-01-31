@@ -102,8 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
            Row(children: [Text("BancaApp",style: TextStyle(color: Colors.white,fontSize: 22,),),
            SizedBox(width: 100,),Text("Credito",style: TextStyle(color:Colors.white),)],), 
                 //chip
-            Row(children: [Icon(Icons.cell_tower,color:Colors.white,) ,Icon(Icons.credit_card,color:Color.fromARGB(148, 247, 245, 245),),
-            SizedBox(height: 10,),Image(image:AssetImage("assets/images/chip.png"))],),       
+           
               //N tarjeta
             Text("5255667891927272",style: TextStyle(color:Colors.white,fontSize: 20),),    
             SizedBox(height: 10,),            
