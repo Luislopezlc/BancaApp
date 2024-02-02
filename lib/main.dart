@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/presentation/views/login/login.dart';
 import 'package:flutter_application_1/core/presentation/widgets/CardSF.dart';
 import 'package:flutter_application_1/core/presentation/widgets/mytable.dart';
 
@@ -63,11 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      
       _counter++;
     });
   }
@@ -80,34 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("Ejercicio Card"),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Container(
-          height: 1800,
-          width:3000,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: Color.fromARGB(255, 0, 106, 255),),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //banco 
-            CardsDemo(),
-          
-          ]),
-        ),
-      ),
-    );
+    return Login();
   }
 }

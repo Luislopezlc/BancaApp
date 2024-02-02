@@ -26,13 +26,20 @@ class _CardsDemo extends State<CardsDemo>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Row(children: [
-    TextField(onChanged: (value) 
-    {
-      algo = value.toString();
-    }, controller: emailController ),
-    Text('$algo'),
-    IconButton(onPressed: onPressed, icon: Icon(Icons.hdr_auto_select))],);
+    return Row(crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Enter a search term',
+            ),
+          ),
+        ),
+      ],
+    
+    );
   }
 
 }
