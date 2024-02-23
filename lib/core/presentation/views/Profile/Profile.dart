@@ -101,7 +101,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Aceptar'),
+              child: const Text('ACEPTAR'),
             ),
           ],
         );
