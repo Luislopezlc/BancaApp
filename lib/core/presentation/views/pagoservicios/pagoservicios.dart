@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +32,9 @@ class MyPaymentPage extends StatefulWidget {
 class _MyPaymentPageState extends State<MyPaymentPage> {
   late TextEditingController _amountController;
   late TextEditingController _serviceController;
+  String _selectedCategory = 'Agua'; 
+
+  final List<String> _serviceCategories = ['Agua', 'Luz', 'Internet']; 
 
   @override
   void initState() {
@@ -58,20 +62,26 @@ class _MyPaymentPageState extends State<MyPaymentPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Monto a pagar',
+              'Categoría de servicio',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 10),
-            TextField(
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: 'Ingrese el monto',
-                prefixIcon: Icon(Icons.attach_money),
-              ),
+            DropdownButton<String>(
+              value: _selectedCategory,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedCategory = newValue!;
+                });
+              },
+              items: _serviceCategories.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
             SizedBox(height: 20),
             Text(
@@ -90,17 +100,75 @@ class _MyPaymentPageState extends State<MyPaymentPage> {
               ),
             ),
             SizedBox(height: 20),
+            Text(
+              'Monto a pagar',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+              decoration: InputDecoration(
+                hintText: 'Ingrese el monto',
+                prefixIcon: Icon(Icons.attach_money),
+              ),
+            ),
+            SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Aquí puedes manejar la lógica para procesar el pago
-                  String amount = _amountController.text;
-                  String service = _serviceController.text;
-                  // Por ejemplo, puedes imprimir la información del pago
-                  print('Monto: \$ $amount');
-                  print('Servicio: $service');
-                  // También puedes navegar a otra pantalla o realizar otras acciones
+              
+                  if (_serviceController.text.isNotEmpty && _amountController.text.isNotEmpty) {
+                  
+                    String amount = _amountController.text;
+                    String service = _serviceController.text;
+                  
+                    print('Categoría: $_selectedCategory');
+                    print('Servicio: $service');
+                    print('Monto: \$ $amount');
+                 
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Confirmación de pago'),
+                          content: Text('Pago de $amount por el servicio de $service ha sido procesado.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Aceptar'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Error'),
+                          content: Text('Por favor complete todos los campos.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Aceptar'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 child: Text(
                   'Pagar',
