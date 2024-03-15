@@ -1,6 +1,46 @@
 import "package:flutter/material.dart";
+import 'package:flutter_application_1/core/presentation/widgets/home2.dart';
+import 'package:local_auth/local_auth.dart';
 
-class Login extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  _Login createState() => _Login();
+} 
+
+
+
+class _Login extends State<LoginPage>  {
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
+ 
+ Future<void> _auth() async {
+    bool authenticated = false;
+    try {
+      authenticated = await _localAuthentication.authenticate(
+        localizedReason: "Autentícate para acceder",
+        options: const AuthenticationOptions(stickyAuth: true, useErrorDialogs: true),
+      );
+    } catch (e) {
+      print(e);
+    }
+
+    if (authenticated) {
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => home2(), 
+        ),
+      );
+    } else {
+      print("Fallo auth");
+    }
+  }
+
+ 
+ 
+ 
+ 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -41,6 +81,11 @@ class Login extends StatelessWidget {
               Icon(Icons.arrow_forward, color: Colors.yellow[500])
             ],
           )),
+                            IconButton(
+                              onPressed: _auth,
+                              icon: const Icon(Icons.fingerprint),
+                            ),
+          
     ]));
   }
 }

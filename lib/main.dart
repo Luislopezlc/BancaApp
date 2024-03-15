@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 import 'package:flutter_application_1/core/presentation/views/login/login.dart';
-import 'package:flutter_application_1/core/presentation/views/login/login_page.dart';
-import 'package:flutter_application_1/core/presentation/views/login/loginplan.dart';
-import 'package:flutter_application_1/core/presentation/widgets/CardSF.dart';
-import 'package:flutter_application_1/core/presentation/widgets/mytable.dart';
 
-import 'core/presentation/widgets/numberCard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -80,6 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return SafeArea(child: LoginApp()) ;
+    return SafeArea(child: LoginPage()) ;
   }
 }
