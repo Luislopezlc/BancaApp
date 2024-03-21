@@ -1,20 +1,18 @@
 import "package:flutter/material.dart";
-import 'package:flutter_application_1/core/presentation/widgets/home2.dart';
+import 'package:flutter_application_1/core/presentation/views/home/home2.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _Login createState() => _Login();
-} 
+  _LoginState createState() => _LoginState();
+}
 
-
-
-class _Login extends State<LoginPage>  {
+class _LoginState extends State<LoginPage> {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
- 
- Future<void> _auth() async {
+
+  Future<void> _auth() async {
     bool authenticated = false;
     try {
       authenticated = await _localAuthentication.authenticate(
@@ -29,7 +27,7 @@ class _Login extends State<LoginPage>  {
       Navigator.pushReplacement<void, void>(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => home2(), 
+          builder: (BuildContext context) => homeApp(),
         ),
       );
     } else {
@@ -37,55 +35,79 @@ class _Login extends State<LoginPage>  {
     }
   }
 
- 
- 
- 
- 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     return Scaffold(
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Image.asset("assets/images/loginLogo.jpg"),
-      const Text("Bienvenido"),
-      TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Correo',
-        ),
-      ),
-      SizedBox(
-        height: 30.0,
-      ),
-      TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Contraseña',
-        ),
-      ),
-      SizedBox(
-        height: 30.0,
-      ),
-      TextButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-          ),
-          onPressed: () {},
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text("Entrar"),
-              Icon(Icons.arrow_forward, color: Colors.yellow[500])
+              Icon(
+                Icons.account_circle,
+                size: 100.0,
+                color: Colors.green,
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                "Iniciar Sesión",
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.blue),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.0),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Correo',
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.green,
+                  filled: true,
+                ),
+              ),
+              SizedBox(height: 20.0),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.green,
+                  filled: true,
+                ),
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  'Entrar',
+                  style: TextStyle(color: Colors.orange),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                ),
+              ),
+              SizedBox(height: 10.0),
+              TextButton(
+                onPressed: () {
+                  // Aquí iría la lógica para recuperar la contraseña
+                },
+                child: Text(
+                  '¿Olvidaste tu contraseña?',
+                  style: TextStyle(color: Colors.orange),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              IconButton(
+                onPressed: _auth,
+                icon: const Icon(Icons.fingerprint),
+                iconSize: 40.0,
+                color: Colors.orange,
+              ),
             ],
-          )),
-                            IconButton(
-                              onPressed: _auth,
-                              icon: const Icon(Icons.fingerprint),
-                            ),
-          
-    ]));
+          ),
+        ),
+      ),
+    );
   }
 }
