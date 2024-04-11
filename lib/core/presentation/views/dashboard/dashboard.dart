@@ -8,7 +8,10 @@ class BancoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Eliminar el banner de depuración
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+      ),
       home: BancoHomePage(),
     );
   }
@@ -20,46 +23,57 @@ class BancoHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.help),
-            onPressed: () {
-              // Acción para la función de ayuda
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.person),
-            onPressed: () {
-              // Acción para el perfil
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 16),
-              Text(
-                'Bienvenido, Isabella',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
-              Column(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.purple[200],
+              padding: EdgeInsets.all(12.0),
+              child: Column(
                 children: [
-                  Text(
-                    'Tu Dinero',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.help),
+                        onPressed: () {
+                          // Acción para la función de ayuda
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.person),
+                        onPressed: () {
+                          // Acción para el perfil
+                        },
+                      ),
+                    ],
                   ),
+                  SizedBox(height:  66),
                   Text(
-                    '\$20,002',
-                    style: TextStyle(fontSize: 18),
+                    'Bienvenido, Isabella',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height:24),
+                  Column(
+                    children: [
+                      Text(
+                        'Tu Dinero',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '\$20,002',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              Row(
+            ),
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(16.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonOption(
@@ -85,47 +99,46 @@ class BancoHomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              Container(
-                color: Colors.grey[200],
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Mi día a día',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            Container(
+              color: Color.fromARGB(185, 238, 236, 236),
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Mi día a día',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Ingresos'),
+                      Text('\$1,000'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Gastos'),
+                      Text('\$1,000'),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () {
+                      // Acción para ver más detalles
+                    },
+                    child: Text(
+                      'Ver más',
+                      style: TextStyle(color: Colors.blue),
                     ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Ingresos'),
-                        Text('\$1,000'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Gastos'),
-                        Text('\$1,000'),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    TextButton(
-                      onPressed: () {
-                        // Acción para ver más detalles
-                      },
-                      child: Text(
-                        'Ver más',
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
