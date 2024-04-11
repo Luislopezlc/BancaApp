@@ -1,123 +1,128 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(DashboardApp());
+  runApp(BancoApp());
 }
 
-class DashboardApp extends StatelessWidget {
+class BancoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Zona Zero',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: DashboardPage(
-        personName: '"Persona"',
-        moneyAmount: 29990,
-        income: 1000,
-        expenses: 1000,
-      ),
+      debugShowCheckedModeBanner: false, // Eliminar el banner de depuración
+      home: BancoHomePage(),
     );
   }
 }
 
-class DashboardPage extends StatelessWidget {
-  final String personName;
-  final int moneyAmount;
-  final int income;
-  final int expenses;
-
-  const DashboardPage({
-    required this.personName,
-    required this.moneyAmount,
-    required this.income,
-    required this.expenses,
-  });
-
+class BancoHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Zona Zero'),
+        title: Text(''),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.help),
+            onPressed: () {
+              // Acción para la función de ayuda
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {
+              // Acción para el perfil
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16),
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 16),
               Text(
-                'Hola $personName',
-                style: TextStyle(fontSize: 24),
+                'Bienvenido, Isabella',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 24),
-              Text(
-                'TU DINERO \$$moneyAmount',
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 24),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 16,
-                runSpacing: 16,
+              SizedBox(height: 16),
+              Column(
                 children: [
-                  DashboardButton(
-                    title: 'Transferir',
-                    icon: Icons.send,
+                  Text(
+                    'Tu Dinero',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '\$20,002',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ButtonOption(
+                    icon: Icons.credit_card,
+                    label: 'Retiro sin tarjeta',
                     onPressed: () {
-                      // Acción al presionar el botón de transferir
+                      // Acción para el retiro sin tarjeta
                     },
                   ),
-                  DashboardButton(
-                    title: 'Oportunidades',
-                    icon: Icons.star,
+                  ButtonOption(
+                    icon: Icons.history,
+                    label: 'Movimientos',
                     onPressed: () {
-                      // Acción al presionar el botón de oportunidades
+                      // Acción para los movimientos
                     },
                   ),
-                  DashboardButton(
-                    title: 'Retiros sin Tarjeta',
-                    icon: Icons.money,
+                  ButtonOption(
+                    icon: Icons.payment,
+                    label: 'Pago de servicios',
                     onPressed: () {
-                      // Acción al presionar el botón de retiros sin tarjeta
-                    },
-                  ),
-                  DashboardButton(
-                    title: 'Más',
-                    icon: Icons.more_horiz,
-                    onPressed: () {
-                      // Acción al presionar el botón de "más"
+                      // Acción para el pago de servicios
                     },
                   ),
                 ],
               ),
-              SizedBox(height: 24),
-              Text(
-                'Ingresos',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '\$$income',
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 12),
-              Text(
-                'Gastos',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '\$$expenses',
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 12),
-              Text(
-                'Mis Tarjetas',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Icon(
-                Icons.credit_card,
-                size: 40,
+              SizedBox(height: 16),
+              Container(
+                color: Colors.grey[200],
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Mi día a día',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Ingresos'),
+                        Text('\$1,000'),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Gastos'),
+                        Text('\$1,000'),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () {
+                        // Acción para ver más detalles
+                      },
+                      child: Text(
+                        'Ver más',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -127,23 +132,29 @@ class DashboardPage extends StatelessWidget {
   }
 }
 
-class DashboardButton extends StatelessWidget {
-  final String title;
+class ButtonOption extends StatelessWidget {
   final IconData icon;
+  final String label;
   final VoidCallback onPressed;
 
-  const DashboardButton({
-    required this.title,
+  const ButtonOption({
+    Key? key,
     required this.icon,
+    required this.label,
     required this.onPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon),
-      label: Text(title),
+    return Column(
+      children: [
+        IconButton(
+          icon: Icon(icon, size: 32),
+          onPressed: onPressed,
+        ),
+        SizedBox(height: 8),
+        Text(label),
+      ],
     );
   }
 }
