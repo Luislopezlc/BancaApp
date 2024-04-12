@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const Profile());
-}
-
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyProfilePage(title: 'Mi Perfil'),
-    );
+    return MyProfilePage(title: 'Mi Perfil');
   }
 }
 
@@ -35,15 +25,12 @@ class _MyProfilePageState extends State<MyProfilePage> {
   TextEditingController _addressController = TextEditingController(text: 'Fracc. Heroes');
 
   String _profileImageUrl =
-      'https://example.com/profile_image.jpg'; // URL de la imagen de perfil del usuario
+      'assets/Images/profileLogo.jpg'; // URL de la imagen de perfil del usuario
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Padding(
+    return Material(
+      child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

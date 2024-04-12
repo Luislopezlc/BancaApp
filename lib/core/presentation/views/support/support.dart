@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-void main() {
-  runApp(const Support());
-}
 
 class Support extends StatelessWidget {
   const Support({Key? key}) : super(key: key);
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Support Page',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        brightness: Brightness.light,
-      ),
-      home: const SupportPage(),
-    );
+    return Container(
+        // Ajusta el tamaño del Container según sea necesario
+        width: double.infinity, // Ancho completo
+        height: double.infinity, // Altura completa
+        child: const SupportPage(),
+      );
   }
 }
 
@@ -51,23 +46,22 @@ class _SupportPageState extends State<SupportPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Soporte',
-            style: TextStyle(
-              // Aquí puedes agregar los estilos que desees
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        backgroundColor: Color.fromRGBO(117, 15, 175, 1),
-      ),
-      body: CustomScrollView(
+    return Material(
+      child: CustomScrollView(
         slivers: [
+          SliverAppBar(
+            title: const Text(
+              'Soporte',
+              style: TextStyle(
+                // Aquí puedes agregar los estilos que desees
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            backgroundColor: Color.fromRGBO(124,77,246,1.000),
+            centerTitle: true,
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -139,106 +133,8 @@ class _SupportPageState extends State<SupportPage> {
     );
   }
 
-final Uri _teleLaunchUri = Uri(
-  scheme: 'tel',
-  path: '+52 998 404 1690', // your number
-);
-
-  void _showSolutionDialog(
-      BuildContext context, String question, String solution) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(question),
-          content: Text(solution),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cerrar'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-
-class CustomSearchDelegate extends SearchDelegate {
-  final List<String> _questions;
-  final List<String> _solutions;
-
-  CustomSearchDelegate(this._questions, this._solutions);
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final results = _questions
-        .where(
-            (question) => question.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (BuildContext context, int index) {
-        final questionIndex = _questions.indexOf(results[index]);
-        return ListTile(
-          title: Text(results[index]),
-          onTap: () {
-            _showSolutionDialog(
-                context, results[index], _solutions[questionIndex]);
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestions = query.isEmpty
-        ? _questions
-        : _questions
-            .where((question) =>
-                question.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-    return ListView.builder(
-      itemCount: suggestions.length,
-      itemBuilder: (BuildContext context, int index) {
-        final questionIndex = _questions.indexOf(suggestions[index]);
-        return ListTile(
-          title: Text(suggestions[index]),
-          onTap: () {
-            _showSolutionDialog(
-                context, suggestions[index], _solutions[questionIndex]);
-          },
-        );
-      },
-    );
-  }
-
-  void _showSolutionDialog(
-      BuildContext context, String suggestion, String solution) {}
+  final Uri _teleLaunchUri = Uri(
+    scheme: 'tel',
+    path: '+52 998 404 1690', // your number
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/presentation/views/dashboard/dashboard.dart';
+import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 import 'package:flutter_application_1/core/presentation/views/login/loginOfficial.dart';
 import 'package:flutter_application_1/core/presentation/views/profile/profile.dart';
 import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
@@ -21,10 +22,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white, // Cambiar aquí el color de la flecha
+          ),
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -63,6 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     
-    return SafeArea(child: Support()) ;
+    return SafeArea(child: HomePage()) ;
   }
 }
