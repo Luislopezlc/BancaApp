@@ -50,17 +50,17 @@ class _CardMovementWidgetState extends State<CardMovementWidget> {
               Text(
                 widget.subtitle1,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.normal,
-                  color: Colors.grey,
+                  color: Colors.black54,
                 ),
               ),
               Text(
                 widget.subtitle2,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.normal,
-                  color: Colors.grey,
+                  color: Colors.black54,
                 ),
               ),
             ],

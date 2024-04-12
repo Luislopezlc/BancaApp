@@ -43,7 +43,7 @@ class CardWalletWidget extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(right: 16.0),
-              child: Image.network(
+              child:  Image.asset(
                 imageUrl,
                 width: 60,
               ),

@@ -25,7 +25,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
   TextEditingController _addressController = TextEditingController(text: 'Fracc. Heroes');
 
   String _profileImageUrl =
-      'assets/Images/profileLogo.jpg'; // URL de la imagen de perfil del usuario
+      'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'; // URL de la imagen de perfil del usuario
 
   @override
   Widget build(BuildContext context) {
