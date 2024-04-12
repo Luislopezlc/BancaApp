@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/presentation/views/dashboard/dashboard.dart';
 import 'package:flutter_application_1/core/presentation/views/login/loginOfficial.dart';
 import 'package:flutter_application_1/core/presentation/views/profile/profile.dart';
 import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
+import 'package:flutter_application_1/core/presentation/views/support/Support.dart';
 
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -55,18 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void initialization() async {
  
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
+   
     FlutterNativeSplash.remove();
   }
   @override
   Widget build(BuildContext context) {
     
-    return SafeArea(child: Profile()) ;
+    return SafeArea(child: Support()) ;
   }
 }
