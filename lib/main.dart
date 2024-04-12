@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/presentation/views/login/loginOfficial.dart';
+import 'package:flutter_application_1/core/presentation/views/profile/profile.dart';
+import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
 
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -65,6 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     
-    return SafeArea(child: LoginPage()) ;
+    return SafeArea(child: Profile()) ;
   }
 }
