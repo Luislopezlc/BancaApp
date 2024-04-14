@@ -31,7 +31,7 @@ class _Withdrawals extends State<Withdrawals> {
           ),
         ),
       ),
-      body: Column(children: [
+      body: SingleChildScrollView(child: Column(children: [
         Container(
           color: Color.fromRGBO(124, 77, 246, 1.000),
           width: MediaQuery.of(context).size.width * 1,
@@ -155,7 +155,7 @@ class _Withdrawals extends State<Withdrawals> {
             ),
           ],
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 20),
         Container(
           width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
@@ -202,7 +202,7 @@ class _Withdrawals extends State<Withdrawals> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.only(top:10),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
@@ -220,8 +220,8 @@ class _Withdrawals extends State<Withdrawals> {
                       foregroundColor: Colors
                           .white, // Color del texto del botón cuando está en el estado primario
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * .05,
-                          vertical: 25), // Ajusta el relleno del botón
+                          horizontal: MediaQuery.of(context).size.width * .08,
+                          vertical: 15), // Ajusta el relleno del botón
                     ),
                     child: Text('Continuar'),
                   ),
@@ -230,7 +230,7 @@ class _Withdrawals extends State<Withdrawals> {
             ],
           ),
         ),
-      ]),
+      ]),)
     );
   }
 
