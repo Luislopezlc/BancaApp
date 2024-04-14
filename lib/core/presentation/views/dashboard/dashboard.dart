@@ -3,6 +3,7 @@ import 'package:flutter_application_1/core/presentation/views/movements/movement
 import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
 import 'package:flutter_application_1/core/presentation/views/transfers/transfers.dart';
 import 'package:flutter_application_1/core/presentation/views/wallet/wallet.dart';
+import 'package:flutter_application_1/core/presentation/views/withdrawals/withdrawals.dart';
 import 'package:flutter_application_1/core/presentation/widgets/CardMovementWidget.dart';
 
 class Dashboard extends StatelessWidget {
@@ -82,9 +83,22 @@ class DashboardPage extends StatelessWidget {
                       
                     },
                   ),
+                   SizedBox(width: MediaQuery.of(context).size.width * .01),
+                  ButtonOption(
+                    icon: Icons.attach_money,
+                    label: 'Retiros',
+                    onPressed: () {
+                      // Acción para los movimientos
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Withdrawals()));
+                      
+                    },
+                  ),
                   SizedBox(width: MediaQuery.of(context).size.width * .00),
                   ButtonOption(
-                    icon: Icons.payment,
+                    icon: Icons.account_balance_wallet_outlined,
                     label: 'Servicios',
                     onPressed: () {
                       // Acción para el pago de servicios
