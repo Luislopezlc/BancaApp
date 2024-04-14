@@ -12,35 +12,30 @@ class WithdrawalPage extends StatelessWidget {
     String formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(dateTime);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
+        title: const Text(
+          'Retiro sin tarjeta',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            color: Colors.purple, // Color morado para el encabezado
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            height: MediaQuery.of(context).size.height * 0.2, // Ajusta la altura del encabezado
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  color: Colors.white,
-                ),
-                SizedBox(width: 16), // Espacio entre el icono y el texto
-                Text(
-                  'Retiro sin Tarjeta',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    '4539 0123 4567 4938 8901',
+                    style: TextStyle(fontSize: 25, color:  Color.fromRGBO(124, 77, 246, 1.000), fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(height: 16), // Espacio entre el encabezado y el primer texto
                   Text(
                     'Token generado',

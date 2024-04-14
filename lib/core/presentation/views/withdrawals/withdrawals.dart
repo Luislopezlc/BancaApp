@@ -177,8 +177,7 @@ class _Withdrawals extends State<Withdrawals> {
                     ),
                     inputFormatters: [
                       // TextInputFormatter que agrega un "$" al principio del texto
-                      FilteringTextInputFormatter.deny(
-                          RegExp(r'[^0-9\$]')),
+                      FilteringTextInputFormatter.deny(RegExp(r'[^0-9\$]')),
                     ],
                   ),
                   SizedBox(height: 1),
@@ -202,6 +201,32 @@ class _Withdrawals extends State<Withdrawals> {
                   ),
                 ],
               ),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Acción cuando se presiona el botón
+                    navigateToWithdrawalPage(double.parse(_controller.text));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            20), // Ajusta el valor según sea necesario
+                      ),
+                      backgroundColor: Color.fromRGBO(
+                          124, 77, 246, 1.000), // Color de fondo del botón
+                      foregroundColor: Colors
+                          .white, // Color del texto del botón cuando está en el estado primario
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * .05,
+                          vertical: 25), // Ajusta el relleno del botón
+                    ),
+                    child: Text('Continuar'),
+                  ),
+                ),
+              )
             ],
           ),
         ),
