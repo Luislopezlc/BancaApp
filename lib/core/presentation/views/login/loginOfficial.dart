@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _auth() async {
     final String correo = "test@example.com";
-    const String contrasena = "disaster";
+    const String contrasena = "12345678";
     final String nombre = _emailController.text;
     final String password = _passwordController.text;
 
@@ -174,21 +174,6 @@ class _LoginPageState extends State<LoginPage> {
                               left: 25.0, top: 30.0, right: 25.0),
                           child: Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      '¿Olvidaste tu contraseña?',
-                                      style: TextStyle(
-                                        fontSize: 13.0,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
                               GestureDetector(
                                 onTap: _auth,
                                 child: ElevatedButton(
