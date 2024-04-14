@@ -41,7 +41,7 @@ class _MyServicePayState extends State<MyServicePay> {
     },
     {
       'name': 'NETFLIX',
-      'imageUrl':'assets/Images/cardTotalPlay.png'
+      'imageUrl':'assets/Images/cardNetflix.jpg'
     },
   ];
 
