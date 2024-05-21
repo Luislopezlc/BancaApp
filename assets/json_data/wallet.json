@@ -1,0 +1,21 @@
+[
+    {
+      "name": "John Doe",
+      "CreditCardNumber": "1234 5678 9012 3456",
+      "DueDate": "12/24",
+      "CVV": "123"
+    },
+    {
+      "name": "Jane Smith",
+      "CreditCardNumber": "9876 5432 1098 7654",
+      "DueDate": "05/23",
+      "CVV": "456"
+    },
+    {
+      "name": "Alice Johnson",
+      "CreditCardNumber": "2468 1357 9753 8642",
+      "DueDate": "09/25",
+      "CVV": "789"
+    }
+  ]
+  

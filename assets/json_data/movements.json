@@ -1,0 +1,27 @@
+[
+    {
+      "name": "Salary",
+      "Date": "2024-05-01",
+      "Amount": 3000.0,
+      "PaymentType": "Bank Transfer"
+    },
+    {
+      "name": "Rent",
+      "Date": "2024-05-03",
+      "Amount": -1000.0,
+      "PaymentType": "Credit Card"
+    },
+    {
+      "name": "Groceries",
+      "Date": "2024-05-05",
+      "Amount": -200.0,
+      "PaymentType": "Debit Card"
+    },
+    {
+      "name": "Electricity Bill",
+      "Date": "2024-05-10",
+      "Amount": -150.0,
+      "PaymentType": "Direct Debit"
+    }
+  ]
+  
