@@ -1,16 +1,23 @@
-import 'dart:ffi';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'movementsModel.g.dart';
+
+@JsonSerializable()
 class MovementsModel
 {
  String name;
- String Date;
- Double Amount;
- String PaymentType;
+ String date;
+ double amount;
+ String paymentType;
 
   MovementsModel({
     required this.name,
-    required this.Date,
-    required this.Amount,
-    required this.PaymentType,
+    required this.date,
+    required this.amount,
+    required this.paymentType,
   });
+
+factory MovementsModel.fromJson(Map<String, dynamic> json) => _$MovementsModelFromJson(json);
+Map<String, dynamic> toJson() => _$MovementsModelToJson(this);
+
 }

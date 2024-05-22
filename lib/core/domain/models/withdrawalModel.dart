@@ -1,14 +1,22 @@
-import 'dart:ffi';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'withdrawalModel.g.dart';
+
+@JsonSerializable()
+
 
 class withdrawalModel {
-Double MaxAmountToRetire;
-Double AmountToRetire;
-String CodeForRetire;
+double maxAmountToRetire;
+double amountToRetire;
+String codeForRetire;
 
 withdrawalModel({
       
-      required this.MaxAmountToRetire,
-      required this.AmountToRetire,
-      required this.CodeForRetire
+      required this.maxAmountToRetire,
+      required this.amountToRetire,
+      required this.codeForRetire
   });
-   }
+
+    factory withdrawalModel.fromJson(Map<String, dynamic> json) => _$withdrawalModelFromJson(json);
+  Map<String, dynamic> toJson() => _$withdrawalModelToJson(this);
+}

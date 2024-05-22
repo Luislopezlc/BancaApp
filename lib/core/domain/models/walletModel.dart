@@ -1,14 +1,24 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'walletModel.g.dart';
+
+@JsonSerializable()
+
 class WalletModel
 {
   String name;
-  String CreditCardNumber;
-  String DueDate;
-  String CVV;
+  String creditCardNumber;
+  String dueDate;
+  String cVV;
 
   WalletModel({
   required this.name,
-  required this.CreditCardNumber,
-  required this.DueDate,
-  required this.CVV,
+  required this.creditCardNumber,
+  required this.dueDate,
+  required this.cVV,
   });
+
+  factory WalletModel.fromJson(Map<String, dynamic> json) => _$WalletModelFromJson(json);
+  Map<String, dynamic> toJson() => _$WalletModelToJson(this);
+
 }

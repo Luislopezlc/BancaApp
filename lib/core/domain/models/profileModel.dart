@@ -1,15 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'profileModel.g.dart';
+
+@JsonSerializable()
+
 class ProfileModel {
-  String Name;
-  String Email;
-  String Number;
-  Stream Address;
-
-
+  String name;
+  String email;
+  String number;
+  String address;
 
   ProfileModel({
-required this.Name,
-required this.Email,
-required this.Number,
-required this.Address
+required this.name,
+required this.email,
+required this.number,
+required this.address
   });
+
+factory ProfileModel.fromJson(Map<String, dynamic> json) => _$ProfileModelFromJson(json);
+Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 }

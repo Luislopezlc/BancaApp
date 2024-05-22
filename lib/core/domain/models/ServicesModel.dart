@@ -1,14 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'ServicesModel.g.dart';
+
+@JsonSerializable()
 class ServicesModel{
- String Name;
-String ClientName;
-String NumberOfReference;
-String AMountOfPayment;
+String name;
+String clientName;
+String numberOfReference;
+String amountOfPayment;
 
 
   ServicesModel({
- required this.Name,
- required this.ClientName,
- required this.NumberOfReference,
- required this.AMountOfPayment,
+ required this.name,
+ required this.clientName,
+ required this.numberOfReference,
+ required this.amountOfPayment,
   });
+
+  factory ServicesModel.fromJson(Map<String, dynamic> json) => _$ServicesModelFromJson(json);
+Map<String, dynamic> toJson() => _$ServicesModelToJson(this);
 }
