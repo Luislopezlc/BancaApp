@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/cupertino.dart'; // Importa Cupertino para widgets nativos de iOS
 import 'package:flutter_application_1/core/presentation/views/home/home.dart';
-import 'package:flutter_application_1/core/presentation/views/home/home2.dart';
+import 'package:flutter_application_1/core/presentation/views/login/register.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -136,37 +136,40 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             suffixIcon: const Icon(Icons.email),
                           ),
-                        style: TextStyle(color: Colors.white, // Color del texto
-                              fontSize: 14.0, // Tamaño de la fuente
-                              fontWeight: FontWeight.bold, // Peso de la fuente
-                           ),),
+                          style: TextStyle(
+                            color: Colors.white, // Color del texto
+                            fontSize: 14.0, // Tamaño de la fuente
+                            fontWeight: FontWeight.bold, // Peso de la fuente
+                          ),
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: TextField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Contraseña',
-                            labelStyle: const TextStyle(
-                              color: Colors
-                                  .white, // Color del texto de la etiqueta
-                              fontSize:
-                                  12.0, // Tamaño de la fuente de la etiqueta
-                              fontWeight: FontWeight
-                                  .bold, // Peso de la fuente de la etiqueta
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Contraseña',
+                              labelStyle: const TextStyle(
+                                color: Colors
+                                    .white, // Color del texto de la etiqueta
+                                fontSize:
+                                    12.0, // Tamaño de la fuente de la etiqueta
+                                fontWeight: FontWeight
+                                    .bold, // Peso de la fuente de la etiqueta
+                              ),
+                              // Establecer el color del texto del TextField
+                              // Aquí establecemos el color del texto del TextField como blanco
+                              // Puedes ajustar el estilo según tus preferencias
+                              hintStyle: TextStyle(color: Colors.white),
+                              // Puedes agregar más estilos según sea necesario
                             ),
-                            // Establecer el color del texto del TextField
-                            // Aquí establecemos el color del texto del TextField como blanco
-                            // Puedes ajustar el estilo según tus preferencias
-                            hintStyle: TextStyle(color: Colors.white),
-                            // Puedes agregar más estilos según sea necesario
-                          ),style: TextStyle(color: Colors.white, // Color del texto
+                            style: TextStyle(
+                              color: Colors.white, // Color del texto
                               fontSize: 14.0, // Tamaño de la fuente
                               fontWeight: FontWeight.bold, // Peso de la fuente
-                           )
-                        ),
+                            )),
                       ),
                       Center(
                         child: Container(
@@ -174,6 +177,26 @@ class _LoginPageState extends State<LoginPage> {
                               left: 25.0, top: 30.0, right: 25.0),
                           child: Column(
                             children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegisterPage()));
+                                },
+                              
+                                
+                                child: Text(
+                                  'Crear cuenta',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.cyan,
+                                ),
+                              ),
+                              SizedBox(height: 20)
+                              ,
                               GestureDetector(
                                 onTap: _auth,
                                 child: ElevatedButton(

@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "name": "John",
+    "lastname": "Doe",
+    "email": "john.doe@example.com",
+    "rfc": "XEXX010101000",
+    "phone": "+521234567890",
+    "password": "password123",
+    "id_bank": 123
+  }
+  
