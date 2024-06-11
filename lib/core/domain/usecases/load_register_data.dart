@@ -1,10 +1,10 @@
 import 'package:flutter_application_1/core/data/models/respositories/registerRepository.dart';
 import 'package:flutter_application_1/core/domain/models/registerModel.dart';
 
-class LoadLoginData {
+class LoadRegisterData {
   final RegisterRepository repository;
 
-  LoadLoginData(this.repository);
+  LoadRegisterData(this.repository);
 
   Future<RegisterModel> call() async {
     final loginData = await repository.loadRegisterModel();
