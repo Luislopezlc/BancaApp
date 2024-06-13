@@ -2,8 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/cupertino.dart'; // Importa Cupertino para widgets nativos de iOS
+import 'package:flutter_application_1/core/data/models/respositories/loginRepository.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_login_data.dart';
+import 'package:flutter_application_1/core/presentation/bloc/login_bloc.dart';
+import 'package:flutter_application_1/core/presentation/bloc/login_event.dart';
 import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 import 'package:flutter_application_1/core/presentation/views/login/register.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -88,7 +93,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(create: (context) => LoginBloc(
+      LoadLoginData(loginRepository()), 
+    )..add(LoadLoginDataEvent()),
+    child: Scaffold(
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -232,6 +240,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    ),
     );
   }
 }
