@@ -14,11 +14,21 @@ class LoadProfileData {
       throw Exception("the field name cant be empty");
     }
     
+    if(profileData.address.isEmpty)
+    {
+      throw Exception("the field address cant be empty");
+    }
+
+    if(profileData.number.isEmpty)
+    {
+      throw Exception("the field number cant be empty");
+    }
+
     if(profileData.email.isEmpty)
     {
       throw Exception("the field email cant be empty");
     }
-
+    print(profileData);
      return profileData;
   }
 }

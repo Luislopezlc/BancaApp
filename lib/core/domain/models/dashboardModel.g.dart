@@ -12,6 +12,9 @@ DashboardModel _$DashboardModelFromJson(Map<String, dynamic> json) =>
       totalAmount: (json['totalAmount'] as num).toDouble(),
       income: json['income'] as String,
       bills: json['bills'] as String,
+      movements: (json['movements'] as List<dynamic>)
+          .map((e) => MovementsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DashboardModelToJson(DashboardModel instance) =>
@@ -20,4 +23,5 @@ Map<String, dynamic> _$DashboardModelToJson(DashboardModel instance) =>
       'totalAmount': instance.totalAmount,
       'income': instance.income,
       'bills': instance.bills,
+      'movements': instance.movements,
     };

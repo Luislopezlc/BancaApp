@@ -1,7 +1,7 @@
 {
-    "Name": "Jane Doe",
-    "Email": "jane.doe@example.com",
-    "Number": "123-456-7890",
-    "Address": "123 Main Street, Anytown, USA"
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "number": "123-456-7890",
+    "address": "123 Main Street, Anytown, USA"
   }
   

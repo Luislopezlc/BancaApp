@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/presentation/views/dashboard/dashboard.dart';
-import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 import 'package:flutter_application_1/core/presentation/views/login/loginOfficial.dart';
-import 'package:flutter_application_1/core/presentation/views/profile/profile.dart';
-import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
-import 'package:flutter_application_1/core/presentation/views/support/Support.dart';
-
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 

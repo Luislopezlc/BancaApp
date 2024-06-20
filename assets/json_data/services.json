@@ -1,21 +1,21 @@
 [
     {
-      "Name": "Web Development",
-      "ClientName": "Acme Corporation",
-      "NumberOfReference": "REF123456",
-      "AMountOfPayment": "1500.00"
+      "name": "Web Development",
+      "clientName": "Acme Corporation",
+      "numberOfReference": "REF123456",
+      "aMountOfPayment": "1500.00"
     },
     {
-      "Name": "Graphic Design",
-      "ClientName": "Beta LLC",
-      "NumberOfReference": "REF654321",
-      "AMountOfPayment": "750.00"
+      "name": "Graphic Design",
+      "clientName": "Beta LLC",
+      "numberOfReference": "REF654321",
+      "aMountOfPayment": "750.00"
     },
     {
-      "Name": "SEO Optimization",
-      "ClientName": "Gamma Inc.",
-      "NumberOfReference": "REF987654",
-      "AMountOfPayment": "1200.00"
+      "name": "SEO Optimization",
+      "clientName": "Gamma Inc.",
+      "numberOfReference": "REF987654",
+      "aMountOfPayment": "1200.00"
     }
   ]
   

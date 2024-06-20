@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/data/models/respositories/dashboardRepository.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_dashboard_data.dart';
+import 'package:flutter_application_1/core/presentation/bloc/dashboard_bloc.dart';
+import 'package:flutter_application_1/core/presentation/bloc/dashboard_event.dart';
+import 'package:flutter_application_1/core/presentation/bloc/dashboard_state.dart';
 import 'package:flutter_application_1/core/presentation/views/movements/movements.dart';
 import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
 import 'package:flutter_application_1/core/presentation/views/transfers/transfers.dart';
 import 'package:flutter_application_1/core/presentation/views/wallet/wallet.dart';
 import 'package:flutter_application_1/core/presentation/views/withdrawals/withdrawals.dart';
 import 'package:flutter_application_1/core/presentation/widgets/CardMovementWidget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -16,7 +22,14 @@ class Dashboard extends StatelessWidget {
 class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return BlocProvider(create: (context) => DashboardBloc(
+      LoadDashboardData(dashboardRepository()), 
+    )..add(LoadDashboardDataEvent()),
+        child: Scaffold(
+      body: BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context,state)
+      {
+        return SingleChildScrollView(
       child: Column(
         children: [
           Container(
@@ -44,7 +57,7 @@ class DashboardPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '\$20,002',
+                      '\$${state.totalAmount}',
                       style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -53,7 +66,7 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           Center(
-            child: Container(
+                child: Container(
               color: Colors.white,
               padding: EdgeInsets.all(16.0),
               child: Row(
@@ -141,7 +154,7 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '\$1,000',
+                        '\$${state.income}',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -163,7 +176,7 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '\$1,000',
+                        '\$${state.bills}',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -212,34 +225,29 @@ class DashboardPage extends StatelessWidget {
                   // Borde con color gris
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CardMovementWidget(
-                      title1: 'Amazon Prime',
-                      title2: '\$90.00',
-                      subtitle1: '8 abr',
-                      subtitle2: 'Crédito',
-                    ),
-                    SizedBox(height: 8),
-                    CardMovementWidget(
-                      title1: 'Mercado libre',
-                      title2: '\$120.00',
-                      subtitle1: '3 abr',
-                      subtitle2: 'Crédito',
-                    ),
-                    SizedBox(height: 8),
-                    CardMovementWidget(
-                      title1: 'Temu',
-                      title2: '\$165.00',
-                      subtitle1: '2 abr',
-                      subtitle2: 'Crédito',
-                    ),
-                  ],
-                ),
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: state.movements.map((movement) {
+    return Column(
+      children: [
+        CardMovementWidget(
+          title1: movement.name,
+          title2: '\$${movement.amount.toStringAsFixed(2)}',
+          subtitle1: movement.date,
+          subtitle2: movement.paymentType,
+        ),
+        SizedBox(height: 8),
+      ],
+    );
+  }).toList(),
+)
               ),
             ),
           ),
         ],
+      ),
+    );
+      }
+      ),
       ),
     );
   }

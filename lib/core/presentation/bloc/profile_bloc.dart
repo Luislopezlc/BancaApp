@@ -9,6 +9,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(this.loadProfileData) : super(const ProfileState()) {
     on<LoadProfileDataEvent>((event, emit) async {
       final profileData = await loadProfileData();
+      print(profileData);
       emit(ProfileState.fromModel(profileData));
     });
 

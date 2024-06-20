@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_application_1/core/domain/models/dashboardModel.dart';
+import 'package:flutter_application_1/core/domain/models/movementsModel.dart';
 
 class DashboardState extends Equatable {
   final String name;
   final double totalAmount;
   final String income;
   final String bills;
-  // final List<MovementsModel> movements; // Descomenta esto si MovementsModel está definido y quieres incluirlo
+  final List<MovementsModel> movements; // Descomenta esto si MovementsModel está definido y quieres incluirlo
   final bool isValid;
 
   const DashboardState({
@@ -14,7 +15,7 @@ class DashboardState extends Equatable {
     this.totalAmount = 0.0,
     this.income = '',
     this.bills = '',
-    // this.movements = const [], // Descomenta esto si MovementsModel está definido y quieres incluirlo
+   this.movements = const [], // Descomenta esto si MovementsModel está definido y quieres incluirlo
     this.isValid = false,
   });
 
@@ -24,7 +25,7 @@ class DashboardState extends Equatable {
       totalAmount: model.totalAmount,
       income: model.income,
       bills: model.bills,
-      // movements: model.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+      movements: model.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
       isValid: true,
     );
   }
@@ -34,7 +35,7 @@ class DashboardState extends Equatable {
     double? totalAmount,
     String? income,
     String? bills,
-    // List<MovementsModel>? movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+    List<MovementsModel>? movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
     bool? isValid,
   }) {
     return DashboardState(
@@ -42,7 +43,7 @@ class DashboardState extends Equatable {
       totalAmount: totalAmount ?? this.totalAmount,
       income: income ?? this.income,
       bills: bills ?? this.bills,
-      // movements: movements ?? this.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+      movements: movements ?? this.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
       isValid: isValid ?? this.isValid,
     );
   }
@@ -53,7 +54,7 @@ class DashboardState extends Equatable {
         totalAmount,
         income,
         bills,
-        // movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+        movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
         isValid,
       ];
 }

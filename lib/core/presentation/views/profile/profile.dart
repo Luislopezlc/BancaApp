@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/data/models/respositories/profileRepository.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_profile_data.dart';
+import 'package:flutter_application_1/core/presentation/bloc/profile_bloc.dart';
+import 'package:flutter_application_1/core/presentation/bloc/profile_event.dart';
+import 'package:flutter_application_1/core/presentation/bloc/profile_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -29,7 +35,18 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return BlocProvider(create: (context) => ProfileBloc(
+      LoadProfileData(profileRepository()),
+    )..add(LoadProfileDataEvent()),
+    child: Scaffold(
+      body: BlocBuilder<ProfileBloc,ProfileState>(
+      builder: (context,state)
+      {
+         _nameController = TextEditingController(text: state.name);
+         _addressController = TextEditingController(text: state.address);
+         _phoneController = TextEditingController(text: state.number);
+         _emailController = TextEditingController(text: state.email);
+        return Material(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -59,6 +76,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
           ],
         ),
       ),
+    );
+      },
+    ),
+    ),
     );
   }
 

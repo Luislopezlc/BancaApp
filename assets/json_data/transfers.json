@@ -1,28 +1,28 @@
 [
     {
-      "Name": "John Doe",
-      "IconText": "JD",
-      "CreditCardNumber": "1234 5678 9012 3456"
+      "name": "John Doe",
+      "iconText": "JD",
+      "creditCardNumber": "1234 5678 9012 3456"
     },
     {
-      "Name": "John Doe",
-      "IconText": "JD",
-      "CreditCardNumber": "1234 5678 9012 3456"
+      "name": "John Doe",
+      "iconText": "JD",
+      "creditCardNumber": "1234 5678 9012 3456"
     },
     {
-      "Name": "John Doe",
-      "IconText": "JD",
-      "CreditCardNumber": "1234 5678 9012 3456"
+      "name": "John Doe",
+      "iconText": "JD",
+      "creditCardNumber": "1234 5678 9012 3456"
     },
     {
-      "Name": "John Doe",
-      "IconText": "JD",
-      "CreditCardNumber": "1234 5678 9012 3456"
+      "name": "John Doe",
+      "iconText": "JD",
+      "creditCardNumber": "1234 5678 9012 3456"
     },
     {
-      "Name": "John Doe",
-      "IconText": "JD",
-      "CreditCardNumber": "1234 5678 9012 3456"
+      "name": "John Doe",
+      "iconText": "JD",
+      "creditCardNumber": "1234 5678 9012 3456"
     }
   ]
   

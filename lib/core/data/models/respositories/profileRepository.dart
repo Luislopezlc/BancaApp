@@ -8,7 +8,7 @@ class profileRepository implements implProfileRepository
 {
   @override
   Future<ProfileModel> loadProfileModel() async {
-    final Map<String, dynamic> response =jsonDecode(await rootBundle.loadString('assets/json_data/profile.json'));
+    final Map<String, dynamic> response =jsonDecode(await rootBundle.loadString("assets/json_data/profile.json"));
     return  ProfileModel.fromJson(response);
   }
 }

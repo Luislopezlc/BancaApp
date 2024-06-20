@@ -24,6 +24,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<BillsChanged>((event, emit) {
       emit(state.copyWith(bills: event.bills, isValid: _validateDashboard()));
     });
+    on<MovementsChanged>((event, emit) {
+      emit(state.copyWith(movements: event.movements, isValid: _validateDashboard()));
+    });
     // on<MovementsChanged>((event, emit) { 
     //   emit(state.copyWith(movements: event.movements, isValid: _validateDashboard()));
     // }); // Descomenta esto si MovementsModel está definido y quieres incluirlo
@@ -39,6 +42,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         state.totalAmount > 0 &&
         state.income.isNotEmpty &&
         state.bills.isNotEmpty;
-        // state.movements.isNotEmpty; // Descomenta esto si MovementsModel está definido y quieres incluirlo
+       state.movements.isNotEmpty; // Descomenta esto si MovementsModel está definido y quieres incluirlo
   }
 }

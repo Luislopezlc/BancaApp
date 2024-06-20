@@ -12,7 +12,7 @@ class DashboardModel
  double totalAmount;
  String income;
  String bills;
-///List<MovementsModel> movements;
+List<MovementsModel> movements;
 
 
 DashboardModel({
@@ -20,7 +20,7 @@ DashboardModel({
   required this.totalAmount,
   required this.income,
   required this.bills,
-  //required this.movements
+  required this.movements
 });
 
 factory DashboardModel.fromJson(Map<String, dynamic> json) => _$DashboardModelFromJson(json);

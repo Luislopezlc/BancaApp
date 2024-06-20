@@ -1,7 +1,7 @@
 {
     "name": "John Doe",
-    "Email": "john.doe@example.com",
-    "Password": "SecurePassword123",
-    "MethodLogin": "Email"
+    "email": "test@example.com",
+    "password": "12345678",
+    "methodLogin": "Email"
   }
   

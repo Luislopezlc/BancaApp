@@ -10,7 +10,7 @@ import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 import 'package:flutter_application_1/core/presentation/views/login/register.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
-
+import 'package:flutter_application_1/core/presentation/bloc/login_state.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -20,8 +20,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+   TextEditingController _emailController = TextEditingController();
+   TextEditingController _passwordController = TextEditingController();
 
   Future<void> _auth() async {
     final String correo = "test@example.com";
@@ -94,11 +94,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(create: (context) => LoginBloc(
-      LoadLoginData(loginRepository()), 
+      LoadLoginData(LoginRepository()), 
     )..add(LoadLoginDataEvent()),
-    child: Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
+        child: Scaffold(
+      body: BlocBuilder<LoginBloc, LoginState>(
+      builder: (context,state)
+      {
+         _emailController = TextEditingController(text: state.email);
+         _passwordController = TextEditingController(text: state.password);
+
+         return SingleChildScrollView(
+        child: Container( 
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -193,8 +199,6 @@ class _LoginPageState extends State<LoginPage> {
                                           builder: (context) =>
                                               RegisterPage()));
                                 },
-                              
-                                
                                 child: Text(
                                   'Crear cuenta',
                                   style: TextStyle(color: Colors.white),
@@ -239,6 +243,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+      );
+      }
       ),
     ),
     );

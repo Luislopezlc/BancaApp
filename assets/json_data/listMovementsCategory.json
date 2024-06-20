@@ -1,0 +1,67 @@
+{
+  "movements": [
+    {
+      "title": "Compras",
+      "movements": [
+        {
+          "name": "Compra de víveres",
+          "date": "2024-06-20",
+          "amount": 85.75,
+          "paymentType": "Tarjeta de débito"
+        },
+        {
+          "name": "Compra de ropa",
+          "date": "2024-06-18",
+          "amount": 120.0,
+          "paymentType": "Efectivo"
+        },
+        {
+          "name": "Compra de libros",
+          "date": "2024-06-15",
+          "amount": 40.25,
+          "paymentType": "Tarjeta de crédito"
+        }
+      ]
+    },
+    {
+      "title": "Facturas",
+      "movements": [
+        {
+          "name": "Pago de electricidad",
+          "date": "2024-06-15",
+          "amount": -50.0,
+          "paymentType": "Tarjeta de crédito"
+        },
+        {
+          "name": "Pago de internet",
+          "date": "2024-06-10",
+          "amount": -30.0,
+          "paymentType": "Tarjeta de débito"
+        },
+        {
+          "name": "Pago de teléfono",
+          "date": "2024-06-05",
+          "amount": -25.0,
+          "paymentType": "Efectivo"
+        }
+      ]
+    },
+    {
+      "title": "Entretenimiento",
+      "movements": [
+        {
+          "name": "Compra de entradas de cine",
+          "date": "2024-06-22",
+          "amount": -35.0,
+          "paymentType": "Tarjeta de crédito"
+        },
+        {
+          "name": "Suscripción a servicio de streaming",
+          "date": "2024-06-20",
+          "amount": -15.0,
+          "paymentType": "Tarjeta de débito"
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import 'package:flutter_application_1/core/data/models/respositories/loginReposi
 import 'package:flutter_application_1/core/domain/models/loginModel.dart';
 
 class LoadLoginData {
-  final loginRepository repository;
+  final LoginRepository repository;
 
   LoadLoginData(this.repository);
   

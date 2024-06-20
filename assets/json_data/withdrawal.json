@@ -1,6 +1,6 @@
 {
-    "MaxAmountToRetire": 500.0,
-    "AmountToRetire": 300.0,
-    "CodeForRetire": "ABCD1234"
+    "maxAmountToRetire": 500.0,
+    "amountToRetire": 300.0,
+    "codeForRetire": "ABCD1234"
   }
   
