@@ -16,4 +16,7 @@ required this.creditCardNumber,
 
   factory TransferModel.fromJson(Map<String, dynamic> json) => _$TransferModelFromJson(json);
   Map<String, dynamic> toJson() => _$TransferModelToJson(this);
+
+
+
 }

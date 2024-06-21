@@ -7,12 +7,14 @@ class WalletState extends Equatable {
   final String dueDate;
   final String cVV;
   final bool isValid;
+  final String imagenUrl;
 
   const WalletState({
     this.name = '',
     this.creditCardNumber = '',
     this.dueDate = '',
     this.cVV = '',
+    this.imagenUrl = '',
     this.isValid = false,
   });
 
@@ -22,6 +24,7 @@ class WalletState extends Equatable {
       creditCardNumber: model.creditCardNumber,
       dueDate: model.dueDate,
       cVV: model.cVV,
+      imagenUrl : model.imagenUrl,
       isValid: true,
     );
   }
@@ -32,12 +35,14 @@ class WalletState extends Equatable {
     String? dueDate,
     String? cVV,
     bool? isValid,
+    String? imagenUrl,
   }) {
     return WalletState(
       name: name ?? this.name,
       creditCardNumber: creditCardNumber ?? this.creditCardNumber,
       dueDate: dueDate ?? this.dueDate,
       cVV: cVV ?? this.cVV,
+      imagenUrl: imagenUrl ?? this.imagenUrl,
       isValid: isValid ?? this.isValid,
     );
   }
@@ -48,6 +53,7 @@ class WalletState extends Equatable {
         creditCardNumber,
         dueDate,
         cVV,
+        imagenUrl,
         isValid,
       ];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_application_1/core/data/models/respositories/servicesRepository.dart';
 import 'package:flutter_application_1/core/domain/models/ServicesModel.dart';
+import 'package:flutter_application_1/core/domain/models/listServicesModel.dart';
 
 class LoadServicesData {
   final servicesRepository repository;
@@ -31,4 +32,8 @@ class LoadServicesData {
 
      return servicesData;
   }
+   Future<ListServicesModel> callList () async {
+final servicesData = await repository.loadListServicesModel();
+return servicesData;
+   }
 }

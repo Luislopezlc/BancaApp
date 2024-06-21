@@ -1,23 +1,13 @@
+import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
+
 abstract class TransferEvent {}
 
 class LoadTransferDataEvent extends TransferEvent {}
 
-class NameChanged extends TransferEvent {
-  final String name;
+class TranfersChanged extends TransferEvent {
+  final ListTransfersModel transfers;
 
-  NameChanged(this.name);
-}
-
-class IconTextChanged extends TransferEvent {
-  final String iconText;
-
-  IconTextChanged(this.iconText);
-}
-
-class CreditCardNumberChanged extends TransferEvent {
-  final String creditCardNumber;
-
-  CreditCardNumberChanged(this.creditCardNumber);
-}
+  TranfersChanged(this.transfers);
+} 
 
 class TransferSubmitted extends TransferEvent {}

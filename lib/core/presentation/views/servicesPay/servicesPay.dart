@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/presentation/views/home/home.dart';
+import 'package:flutter_application_1/core/data/models/respositories/servicesRepository.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_services_data.dart';
+import 'package:flutter_application_1/core/presentation/bloc/listServices_bloc.dart';
+import 'package:flutter_application_1/core/presentation/bloc/listServices_event.dart';
+import 'package:flutter_application_1/core/presentation/bloc/listServices_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ServicePay extends StatelessWidget {
   const ServicePay({Key? key}) : super(key: key);
@@ -66,7 +71,13 @@ class _MyServicePayState extends State<MyServicePay> {
 
   @override
  Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(create: (context) => ListServicesBloc(
+      LoadServicesData(servicesRepository()),
+    )..add(LoadListServicesDataEvent()),
+    child: Scaffold(
+      body: BlocBuilder<ListServicesBloc,ListServicesState>(
+        builder: (context,state){
+          return Scaffold(
       appBar: AppBar(
         backgroundColor:
             Color.fromRGBO(124, 77, 246, 1.000), 
@@ -104,12 +115,12 @@ class _MyServicePayState extends State<MyServicePay> {
               color: Color.fromARGB(255, 255, 255, 255),
               child: GridView.count(
                 crossAxisCount: 2,
-                children: filteredServices.map((service) {
+                children: state.services.services.map((service) {
                   return ServiceButton(
-                    serviceImageUrl: service['imageUrl'],
-                    serviceName: service['name'] ?? '',
+                    serviceImageUrl: service.imagenUrl,
+                    serviceName: service.name ?? '',
                     onPressed: () {
-                      _showServiceDialog(context, service['name'] ?? '');
+                      _showServiceDialog(context, service.name ?? '');
                     },
                   );
                 }).toList(),
@@ -118,7 +129,12 @@ class _MyServicePayState extends State<MyServicePay> {
           ),
         ],
       ),
-    );}
+    );
+        },
+      ),
+    ),
+    );
+    }
 
   void _showServiceDialog(BuildContext context, String serviceName) {
     showDialog(

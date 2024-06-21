@@ -1,7 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:flutter_application_1/core/data/models/respositories/withdrawalRepository.dart";
+import "package:flutter_application_1/core/domain/usecases/load_withdrawal_data.dart";
+import "package:flutter_application_1/core/presentation/bloc/withdrawal_bloc.dart";
+import "package:flutter_application_1/core/presentation/bloc/withdrawal_event.dart";
+import "package:flutter_application_1/core/presentation/bloc/withdrawal_state.dart";
 import "package:flutter_application_1/core/presentation/views/withdrawals/WithdrawalPage.dart";
 import "package:flutter_application_1/core/presentation/views/withdrawals/cardwihdrawals.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class Withdrawals extends StatefulWidget {
   _Withdrawals createState() => _Withdrawals();
@@ -18,7 +24,13 @@ class _Withdrawals extends State<Withdrawals> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(create: (context) => WithdrawalBloc(
+      LoadwithdrawalData(withdrawalRepository()),
+    )..add(LoadWithdrawalDataEvent()),
+    child: Scaffold(
+      body: BlocBuilder<WithdrawalBloc,WithdrawalState>(
+        builder: (context,state){
+          return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
         title: const Text(
@@ -55,7 +67,7 @@ class _Withdrawals extends State<Withdrawals> {
                         ),
                       ),
                       Text(
-                        '\$20,002',
+                        "\$" + state.maxAmountToRetire.toString(), 
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -231,6 +243,10 @@ class _Withdrawals extends State<Withdrawals> {
           ),
         ),
       ]),)
+    );
+        },
+      ),
+    ),
     );
   }
 

@@ -26,4 +26,11 @@ class CVVChanged extends WalletEvent {
   CVVChanged(this.cVV);
 }
 
+class ImagenUrl extends WalletEvent {
+  final String imagenUrl;
+
+  ImagenUrl(this.imagenUrl);
+}
+
+
 class WalletSubmitted extends WalletEvent {}

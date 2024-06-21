@@ -1,21 +1,26 @@
-[
+{
+  "cards": [
     {
       "name": "John Doe",
-      "CreditCardNumber": "1234 5678 9012 3456",
-      "DueDate": "12/24",
-      "CVV": "123"
+      "creditCardNumber": "1234 5678 9012 3456",
+      "dueDate": "12/24",
+      "cVV": "123",
+      "imagenUrl": "assets/Images/tarjetaMorada.jpg"
     },
     {
       "name": "Jane Smith",
-      "CreditCardNumber": "9876 5432 1098 7654",
-      "DueDate": "05/23",
-      "CVV": "456"
+      "creditCardNumber": "9876 5432 1098 7654",
+      "dueDate": "05/23",
+      "cVV": "456",
+      "imagenUrl": "assets/Images/tarjetaBlanca.jpg"
     },
     {
       "name": "Alice Johnson",
-      "CreditCardNumber": "2468 1357 9753 8642",
-      "DueDate": "09/25",
-      "CVV": "789"
+      "creditCardNumber": "2468 1357 9753 8642",
+      "dueDate": "09/25",
+      "cVV": "789",
+      "imagenUrl": "assets/Images/tarjetaAzul.jpg"
     }
   ]
+}
   

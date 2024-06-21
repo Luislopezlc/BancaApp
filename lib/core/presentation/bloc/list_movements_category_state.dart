@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_application_1/core/domain/models/listMovementsCategory.dart';
-import 'package:flutter_application_1/core/domain/models/movementsCategoryModel.dart';
 
 class ListMovementsCategoryState extends Equatable {
   final ListMovementsCategoryModel movements;
 
-   const ListMovementsCategoryState({
-    List<MovementsCategoryModel>? movements,
-  }) : movements = movements ?? [];
+  ListMovementsCategoryState({
+    ListMovementsCategoryModel? movements,
+  }) : movements = movements ?? ListMovementsCategoryModel(movements: []);
+
   factory ListMovementsCategoryState.fromModel(ListMovementsCategoryModel model) {
     return ListMovementsCategoryState(
-      movements: model.movements ?? [], // Inicializa con una lista vacía si model.movements es null
+      movements: model,
     );
   }
 

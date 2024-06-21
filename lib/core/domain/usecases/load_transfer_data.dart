@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/core/data/models/respositories/transfersRepository.dart';
+import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/transfersModel.dart';
 
 class LoadtransferData {
@@ -15,5 +16,10 @@ class LoadtransferData {
     }
 
      return transferData;
+  }
+
+   Future<ListTransfersModel> callList () async {
+    final transferData = await repository.loadListTransferModel();
+    return transferData;
   }
 }

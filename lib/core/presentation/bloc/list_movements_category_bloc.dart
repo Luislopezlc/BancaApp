@@ -7,8 +7,8 @@ class ListMovementsCategoryBloc
     extends Bloc<ListMovementsCategoryEvent, ListMovementsCategoryState> {
   final LoadListMovementsCategoryData loadListMovementsCategory;
 
-  ListMovementsCategoryBloc(this.loadListMovementsCategory): super(const ListMovementsCategoryState()) {
-    on<LoadListMovementsCategory>((event, emit) async {
+  ListMovementsCategoryBloc(this.loadListMovementsCategory): super(ListMovementsCategoryState()) {
+    on<LoadListMovementsCategoryDataEvent>((event, emit) async {
       final listMovements = await loadListMovementsCategory();
       emit(ListMovementsCategoryState.fromModel(listMovements));
     });

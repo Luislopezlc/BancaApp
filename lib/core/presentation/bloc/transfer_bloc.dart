@@ -5,32 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransferBloc extends Bloc<TransferEvent, TransferState> {
   final LoadtransferData loadTransferData;
-
-  TransferBloc(this.loadTransferData) : super(const TransferState()) {
+  
+  TransferBloc(this.loadTransferData) : super( TransferState()) {
     on<LoadTransferDataEvent>((event, emit) async {
-      final transferData = await loadTransferData();
+      final transferData = await loadTransferData.callList();
       emit(TransferState.fromModel(transferData));
     });
 
-    on<NameChanged>((event, emit) {
-      emit(state.copyWith(name: event.name, isValid: _validateTransfer()));
-    });
-    on<IconTextChanged>((event, emit) {
-      emit(state.copyWith(iconText: event.iconText, isValid: _validateTransfer()));
-    });
-    on<CreditCardNumberChanged>((event, emit) {
-      emit(state.copyWith(creditCardNumber: event.creditCardNumber, isValid: _validateTransfer()));
-    });
-    on<TransferSubmitted>((event, emit) {
-      if (state.isValid) {
-        // Handle transfer submission logic
-      }
+    on<TranfersChanged>((event, emit) {
+      emit(state.copyWith(transfer: event.transfers));
     });
   }
 
-  bool _validateTransfer() {
-    return state.name.isNotEmpty &&
-        state.iconText.isNotEmpty &&
-        state.creditCardNumber.isNotEmpty;
-  }
+
 }

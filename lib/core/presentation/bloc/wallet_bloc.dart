@@ -24,6 +24,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<CVVChanged>((event, emit) {
       emit(state.copyWith(cVV: event.cVV, isValid: _validateWallet()));
     });
+
+    on<ImagenUrl>((event, emit) {
+      emit(state.copyWith(imagenUrl: event.imagenUrl, isValid: _validateWallet()));
+    });
+
     on<WalletSubmitted>((event, emit) {
       if (state.isValid) {
         // Handle wallet submission logic
@@ -35,6 +40,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     return state.name.isNotEmpty &&
         state.creditCardNumber.isNotEmpty &&
         state.dueDate.isNotEmpty &&
+        state.imagenUrl.isNotEmpty &&
         state.cVV.isNotEmpty;
   }
 }

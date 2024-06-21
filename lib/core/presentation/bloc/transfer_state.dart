@@ -1,47 +1,28 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/transfersModel.dart';
 
 class TransferState extends Equatable {
-  final String name;
-  final String iconText;
-  final String creditCardNumber;
-  final bool isValid;
+  final ListTransfersModel transfers;
 
-  const TransferState({
-    this.name = '',
-    this.iconText = '',
-    this.creditCardNumber = '',
-    this.isValid = false,
-  });
+ TransferState({
+      ListTransfersModel? transfers,
+  }) : transfers = transfers ?? ListTransfersModel(transfer: []);
 
-  factory TransferState.fromModel(TransferModel model) {
+  factory TransferState.fromModel(ListTransfersModel model) {
     return TransferState(
-      name: model.name,
-      iconText: model.iconText,
-      creditCardNumber: model.creditCardNumber,
-      isValid: true,
+      transfers: model
     );
   }
 
   TransferState copyWith({
-    String? name,
-    String? iconText,
-    String? creditCardNumber,
-    bool? isValid,
+       ListTransfersModel? transfer,
   }) {
     return TransferState(
-      name: name ?? this.name,
-      iconText: iconText ?? this.iconText,
-      creditCardNumber: creditCardNumber ?? this.creditCardNumber,
-      isValid: isValid ?? this.isValid,
+      transfers: transfer ?? transfers,
     );
   }
 
   @override
-  List<Object?> get props => [
-        name,
-        iconText,
-        creditCardNumber,
-        isValid,
-      ];
+  List<Object?> get props => [transfers];
 }

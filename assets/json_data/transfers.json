@@ -1,28 +1,54 @@
-[
+{
+  "transfer": [
     {
       "name": "John Doe",
       "iconText": "JD",
       "creditCardNumber": "1234 5678 9012 3456"
     },
     {
-      "name": "John Doe",
-      "iconText": "JD",
-      "creditCardNumber": "1234 5678 9012 3456"
+      "name": "Jane Smith",
+      "iconText": "JS",
+      "creditCardNumber": "6543 2109 8765 4321"
     },
     {
-      "name": "John Doe",
-      "iconText": "JD",
-      "creditCardNumber": "1234 5678 9012 3456"
+      "name": "Alice Johnson",
+      "iconText": "AJ",
+      "creditCardNumber": "1111 2222 3333 4444"
     },
     {
-      "name": "John Doe",
-      "iconText": "JD",
-      "creditCardNumber": "1234 5678 9012 3456"
+      "name": "Bob Brown",
+      "iconText": "BB",
+      "creditCardNumber": "5555 6666 7777 8888"
     },
     {
-      "name": "John Doe",
-      "iconText": "JD",
-      "creditCardNumber": "1234 5678 9012 3456"
+      "name": "Charlie Davis",
+      "iconText": "CD",
+      "creditCardNumber": "9999 0000 1111 2222"
+    },
+    {
+      "name": "Eve Wilson",
+      "iconText": "EW",
+      "creditCardNumber": "3333 4444 5555 6666"
+    },
+    {
+      "name": "Frank Miller",
+      "iconText": "FM",
+      "creditCardNumber": "7777 8888 9999 0000"
+    },
+    {
+      "name": "Grace Lee",
+      "iconText": "GL",
+      "creditCardNumber": "1212 3434 5656 7878"
+    },
+    {
+      "name": "Henry Clark",
+      "iconText": "HC",
+      "creditCardNumber": "2323 4545 6767 8989"
+    },
+    {
+      "name": "Isabel Hall",
+      "iconText": "IH",
+      "creditCardNumber": "3434 5656 7878 9090"
     }
   ]
-  
+}

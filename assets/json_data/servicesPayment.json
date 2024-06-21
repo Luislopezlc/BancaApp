@@ -1,0 +1,29 @@
+{
+    "services": [
+      {
+        "name": "CFE",
+        "imagenUrl": "assets/Images/cardCFE.png"
+      },
+      {
+        "name": "AGUAKAN",
+        "imagenUrl": "assets/Images/cardAguakan.jpg"
+      },
+      {
+        "name": "TOTALPLAY",
+        "imagenUrl": "assets/Images/cardTotalPlay.png"
+      },
+      {
+        "name": "IZZI",
+        "imagenUrl": "assets/Images/cardIzzi.png"
+      },
+      {
+        "name": "TELMEX",
+        "imagenUrl": "assets/Images/cardTelmex.jpg"
+      },
+      {
+        "name": "NETFLIX",
+        "imagenUrl": "assets/Images/cardNetflix.jpg"
+      }
+    ]
+  }
+  

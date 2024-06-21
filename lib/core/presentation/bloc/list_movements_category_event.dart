@@ -4,7 +4,7 @@ import 'package:flutter_application_1/core/domain/models/movementsCategoryModel.
 
 abstract class ListMovementsCategoryEvent {}
 
-class LoadListMovementsCategory extends ListMovementsCategoryEvent {}
+class LoadListMovementsCategoryDataEvent extends ListMovementsCategoryEvent {}
 
 class MovementChanged extends ListMovementsCategoryEvent {
   final ListMovementsCategoryModel movements;
