@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_application_1/core/data/models/respositories/registerRepository.dart';
 import 'package:flutter_application_1/core/domain/models/registerModel.dart';
-import 'package:flutter_application_1/core/domain/models/responseModel.dart';
+import 'package:flutter_application_1/core/domain/models/ResponseModel.dart';
 
 class LoadRegisterData {
   final RegisterRepository repository;
@@ -30,8 +30,8 @@ class LoadRegisterData {
 
   bool isValidEmail(String email) {
     final emailRegExp = RegExp(
-        r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+$', // Patrón básico para validar direcciones de correo electrónico
-        caseSensitive: false,
+      r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+$', // Patrón básico para validar direcciones de correo electrónico
+      caseSensitive: false,
     );
     return emailRegExp.hasMatch(email);
   }
@@ -43,8 +43,11 @@ class LoadRegisterData {
     if (password.length < 8) {
       throw Exception("La contraseña debe tener al menos 8 caracteres");
     }
-    if (!containsUpperCase(password) || !containsLowerCase(password) || !containsDigit(password)) {
-      throw Exception("La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un dígito");
+    if (!containsUpperCase(password) ||
+        !containsLowerCase(password) ||
+        !containsDigit(password)) {
+      throw Exception(
+          "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un dígito");
     }
   }
 
@@ -77,14 +80,22 @@ class LoadRegisterData {
     return rfcRegExp.hasMatch(rfc);
   }
 
-  Future<ResponseModel> saveUser(RegisterModel request) async
-  {
-   var response =  await repository.saveUser(request);
+  Future<ResponseModel> saveUser(RegisterModel request) async {
+    
+    ResponseModel responseModel = ResponseModel(data: {}, errors: []);
 
-   if(response != null)
-  {
-    var responseModel = ResponseModel(data: response, errors: ['Ocurrio un error al guardar']);
-  }
+    try {
+      var response = await repository.saveUser(request);
+
+    if (response != null) {
+      responseModel.data = response;
+      responseModel.errors.add('Ocurrio un error al guardar');
+    }
+
+    } catch (e) {
+      responseModel.errors.add(e.toString());
+    }
+
+    return responseModel;
   }
 }
-
