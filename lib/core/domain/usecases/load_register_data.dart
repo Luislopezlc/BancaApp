@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_application_1/core/data/models/respositories/registerRepository.dart';
 import 'package:flutter_application_1/core/domain/models/registerModel.dart';
+import 'package:flutter_application_1/core/domain/models/responseModel.dart';
 
 class LoadRegisterData {
   final RegisterRepository repository;
@@ -72,6 +75,16 @@ class LoadRegisterData {
       caseSensitive: false,
     );
     return rfcRegExp.hasMatch(rfc);
+  }
+
+  Future<ResponseModel> saveUser(RegisterModel request) async
+  {
+   var response =  await repository.saveUser(request);
+
+   if(response != null)
+  {
+    var responseModel = ResponseModel(data: response, errors: ['Ocurrio un error al guardar']);
+  }
   }
 }
 

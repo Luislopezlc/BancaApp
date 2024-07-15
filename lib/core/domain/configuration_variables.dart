@@ -1,0 +1,1 @@
+const String apiUrl = 'https://apimoviles-production.up.railway.app';
