@@ -9,15 +9,35 @@ class LoadRegisterData {
 
   LoadRegisterData(this.repository);
 
-  Future<RegisterModel> call() async {
-    final loginData = await repository.loadRegisterModel();
+  // Future<RegisterModel> call() async {
+  //   final loginData = await repository.loadRegisterModel();
 
-    _validateEmail(loginData.email);
-    _validatePassword(loginData.password);
-    _validateRFC(loginData.rfc);
+  //   _validateEmail(loginData.email);
+  //   _validatePassword(loginData.password);
+  //   _validateRFC(loginData.rfc);
 
-    return loginData;
+  //   return loginData;
+  // }
+
+  Future<ResponseModel> call(RegisterModel request) async {
+    
+    ResponseModel responseModel = ResponseModel(data: {}, errors: []);
+
+    try {
+      var response = await repository.saveUser(request);
+
+    if (response != null) {
+      responseModel.data = response;
+      responseModel.errors.add('Ocurrio un error al guardar');
+    }
+
+    } catch (e) {
+      responseModel.errors.add(e.toString());
+    }
+
+    return responseModel;
   }
+
 
   void _validateEmail(String email) {
     if (email.isEmpty) {

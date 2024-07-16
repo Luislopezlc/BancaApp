@@ -20,7 +20,7 @@ class RegisterRepository implements implRegisterRepository {
     try {
       var dio = Dio();
       Response response = await dio.post(
-        apiUrl,
+       '$apiUrl/users',
         data: request,
       );
 

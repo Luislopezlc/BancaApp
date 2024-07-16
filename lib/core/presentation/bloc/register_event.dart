@@ -1,47 +1,20 @@
-abstract class RegisterEvent {}
+import 'package:equatable/equatable.dart';
+import 'package:flutter_application_1/core/domain/models/registerModel.dart';
 
-class LoadRegisterDataEvent extends RegisterEvent {}
+abstract class RegisterEvent extends Equatable {
 
-class NameChanged extends RegisterEvent {
-  final String name;
-
-  NameChanged(this.name);
+const RegisterEvent();
+ @override
+  List<Object> get props => [];
 }
 
-class LastnameChanged extends RegisterEvent {
-  final String lastname;
 
-  LastnameChanged(this.lastname);
+class RegisterSubmitted extends RegisterEvent {
+
+  final RegisterModel register;
+
+  const RegisterSubmitted(this.register);
+
+  @override
+  List<Object> get props => [register];
 }
-
-class EmailChanged extends RegisterEvent {
-  final String email;
-
-  EmailChanged(this.email);
-}
-
-class RfcChanged extends RegisterEvent {
-  final String rfc;
-
-  RfcChanged(this.rfc);
-}
-
-class PhoneChanged extends RegisterEvent {
-  final String phone;
-
-  PhoneChanged(this.phone);
-}
-
-class PasswordChanged extends RegisterEvent {
-  final String password;
-
-  PasswordChanged(this.password);
-}
-
-class IdBankChanged extends RegisterEvent {
-  final int idBank;
-
-  IdBankChanged(this.idBank);
-}
-
-class RegisterSubmitted extends RegisterEvent {}

@@ -12,7 +12,7 @@ class RegisterModel{
   late String rfc;
   late String phone;
   late String password;
-  late int idBank;
+  late int id_bank;
 
   // Constructor
   RegisterModel({
@@ -23,7 +23,7 @@ class RegisterModel{
     required this.rfc,
     required this.phone,
     required this.password,
-    required this.idBank,
+    required this.id_bank,
   });
   factory RegisterModel.fromJson(Map<String, dynamic> json) => _$RegisterModelFromJson(json);
 Map<String, dynamic> toJson() => _$RegisterModelToJson(this);
