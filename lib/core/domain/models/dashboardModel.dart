@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:flutter_application_1/core/domain/models/movementsModel.dart';

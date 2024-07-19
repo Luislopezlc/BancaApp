@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_application_1/core/domain/models/ResponseModel.dart';
 import 'package:flutter_application_1/core/domain/models/registerModel.dart';
 
 abstract class RegisterState extends Equatable {
@@ -10,9 +11,14 @@ abstract class RegisterState extends Equatable {
 
 class RegisterInitial extends RegisterState {}
 
-class RegisterLoading extends RegisterState {}
+class RegisterSuccess extends RegisterState {
+ final String message;
 
-class RegisterSuccess extends RegisterState {}
+const RegisterSuccess(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
 
 class RegisterError extends RegisterState {
   final String message;

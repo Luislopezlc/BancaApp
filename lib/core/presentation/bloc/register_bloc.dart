@@ -9,12 +9,25 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc(this.loadRegisterData) : super(RegisterInitial()) {
    
     on<RegisterSubmitted>((event, emit) async {
-      emit(RegisterLoading());
+      String mensaje = '';
       try {
-        await loadRegisterData(event.register);
-        emit(RegisterSuccess());
+      var response =  await loadRegisterData(event.register);
+     print('se hizo la peticion');
+      if(response.status=='200')
+      {
+          print('fue 200');
+        mensaje = response.data as String; 
+        emit(RegisterSuccess(mensaje));
+      }else if(response.status=='400' || response.status=='500' )
+      {
+          print('fue 400');
+        mensaje = response.data as String; 
+        emit(RegisterError(mensaje));
+      }
+       
       } catch (e) {
-        emit(RegisterError('Failed to submit Register'));
+          print('no se hizo la peticion');
+        emit(RegisterError('Algo salio mal, intente mas tarde.'));
       }
     });
   

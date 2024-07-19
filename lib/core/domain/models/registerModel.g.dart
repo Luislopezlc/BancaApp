@@ -27,5 +27,5 @@ Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
       'rfc': instance.rfc,
       'phone': instance.phone,
       'password': instance.password,
-      'idBank': instance.id_bank,
+      'id_bank': instance.id_bank,
     };

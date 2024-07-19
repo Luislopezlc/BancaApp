@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/data/models/respositories/registerRepository.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_register_data.dart';
+import 'package:flutter_application_1/core/presentation/bloc/register_bloc.dart';
 import 'package:flutter_application_1/core/presentation/views/login/loginOfficial.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 
@@ -11,7 +15,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,19 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<RegisterBloc>(
+            create: (BuildContext context) => RegisterBloc(LoadRegisterData(RegisterRepository())),
+          ),
+          // Aquí puedes agregar otros BlocProviders si es necesario
+          // BlocProvider<OtroBloc>(
+          //   create: (BuildContext context) => OtroBloc(),
+          // ),
+        ],
+        child: const MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
+      
     );
   }
 }
