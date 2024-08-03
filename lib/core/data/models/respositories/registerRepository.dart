@@ -29,11 +29,12 @@ class RegisterRepository implements implRegisterRepository {
       if (response.statusCode == 200 || response.statusCode == 201) 
       {
         var data = response.data;
-        result.status = '200';
+       
         if (data['status'] == 'Success') {
+         result.status = '200';
          result.data  = 'Usuario guardado correctamente, inicie sesión.';
         }else{
-           
+            result.status = '400';
             result.data = data['message'];
         }
       }

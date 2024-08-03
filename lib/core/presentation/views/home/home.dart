@@ -5,7 +5,9 @@ import 'package:flutter_application_1/core/presentation/views/support/Support.da
 import 'package:flutter_application_1/core/presentation/widgets/home2.dart';
 import 'package:flutter_application_1/core/presentation/widgets/perfil.dart';
 import 'package:flutter_application_1/core/presentation/widgets/settings.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,8 +17,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   Widget contenidoDelBody = Dashboard(); 
+  var logger = Logger();
 
-  void _onItemTapped(int index) {
+
+
+  void _onItemTapped(int index) async {
+      
     setState(() {
       _selectedIndex = index;
       switch (index) {
@@ -34,9 +40,12 @@ class _HomePageState extends State<HomePage> {
           contenidoDelBody = Support();
 
           break;
+          
       }
+      
     });
   }
+
 
   // Formatear la fecha en el formato deseado
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());

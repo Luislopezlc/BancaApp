@@ -8,7 +8,7 @@ abstract class RegisterState extends Equatable {
   @override
   List<Object> get props => [];
 }
-
+class RegisterLoading extends RegisterState {}
 class RegisterInitial extends RegisterState {}
 
 class RegisterSuccess extends RegisterState {

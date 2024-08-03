@@ -1,29 +1,18 @@
-abstract class LoginEvent {}
+import 'package:equatable/equatable.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/loginDTO.dart';
 
-class LoadLoginDataEvent extends LoginEvent {}
+abstract class LoginEvent extends Equatable {
 
-class NameChanged extends LoginEvent {
-  final String name;
-
-  NameChanged(this.name);
+const LoginEvent();
+ @override
+  List<Object> get props => [];
 }
 
-class EmailChanged extends LoginEvent {
-  final String email;
+class LoginSubmitted extends LoginEvent {
+  final LoginDTO credentials;
+  
+  const LoginSubmitted(this.credentials);
 
-  EmailChanged(this.email);
+  @override
+  List<Object> get props => [credentials];
 }
-
-class PasswordChanged extends LoginEvent {
-  final String password;
-
-  PasswordChanged(this.password);
-}
-
-class MethodLoginChanged extends LoginEvent {
-  final String methodLogin;
-
-  MethodLoginChanged(this.methodLogin);
-}
-
-class LoginSubmitted extends LoginEvent {}

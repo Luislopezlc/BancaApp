@@ -7,7 +7,7 @@ import 'package:flutter_application_1/core/presentation/bloc/register_event.dart
 import 'package:flutter_application_1/core/presentation/bloc/register_state.dart';
 import 'package:flutter_application_1/core/presentation/views/errorPage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,27 +19,36 @@ class RegisterPage extends StatelessWidget {
     final _phoneController = TextEditingController();
     final _passwordController = TextEditingController();
     final _idBankController = TextEditingController();
-
     return BlocProvider(
         create: (context) =>
             RegisterBloc(LoadRegisterData(RegisterRepository())),
         child: Scaffold(
           body: BlocListener<RegisterBloc, RegisterState>(
-              listener: (context, state) {
+              listener: (context, state) async {
             if (state is RegisterSuccess) {
               print('mensaje de success');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
+
+
+            
+
             } else if (state is RegisterError) {
                print('mensaje de error');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
             }
+            else if (state is RegisterLoading) {
+               print('entro en loading');
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Enviando')),
+              );
+            }
           }, child: BlocBuilder<RegisterBloc, RegisterState>(
                   builder: (context, state) {
-            if (state is RegisterInitial) {
+            if (state is RegisterInitial || state is RegisterLoading) {
                print('mensaje de inicio');
                return buildView(
                 context,
@@ -80,6 +89,7 @@ class RegisterPage extends StatelessWidget {
         ));
   }
 }
+
 
 Widget buildView(
     BuildContext context,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/data/models/respositories/loginRepository.dart';
 import 'package:flutter_application_1/core/data/models/respositories/registerRepository.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_login_data.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_register_data.dart';
+import 'package:flutter_application_1/core/presentation/bloc/login_bloc.dart';
 import 'package:flutter_application_1/core/presentation/bloc/register_bloc.dart';
 import 'package:flutter_application_1/core/presentation/views/login/loginOfficial.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +35,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<RegisterBloc>(
             create: (BuildContext context) => RegisterBloc(LoadRegisterData(RegisterRepository())),
+          ),
+          BlocProvider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(LoadLoginData(LoginRepository())),
           ),
           // Aquí puedes agregar otros BlocProviders si es necesario
           // BlocProvider<OtroBloc>(

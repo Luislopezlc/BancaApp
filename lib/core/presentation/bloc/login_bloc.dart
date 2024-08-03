@@ -6,35 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoadLoginData loadLoginData;
 
-  LoginBloc(this.loadLoginData) : super(const LoginState()) {
-    on<LoadLoginDataEvent>((event, emit) async {
-      final loginData = await loadLoginData();
-      emit(LoginState.fromModel(loginData));
-    });
+  LoginBloc(this.loadLoginData) : super(LoginInitial()) {
+    on<LoginSubmitted>((event, emit) async {
+      emit(LoginLoading());
+      String mensaje = '';
+      try {
+        var response = await loadLoginData(event.credentials);
 
-    on<NameChanged>((event, emit) {
-      emit(state.copyWith(name: event.name, isValid: _validateLogin()));
-    });
-    on<EmailChanged>((event, emit) {
-      emit(state.copyWith(email: event.email, isValid: _validateLogin()));
-    });
-    on<PasswordChanged>((event, emit) {
-      emit(state.copyWith(password: event.password, isValid: _validateLogin()));
-    });
-    on<MethodLoginChanged>((event, emit) {
-      emit(state.copyWith(methodLogin: event.methodLogin, isValid: _validateLogin()));
-    });
-    on<LoginSubmitted>((event, emit) {
-      if (state.isValid) {
-        // Handle login submission logic
+        if (response.status == '200') {
+          emit(LoginSuccess());
+        } else {
+          mensaje = response.data as String;
+          emit(LoginError(mensaje));
+        }
+      } catch (e) {
+        emit(LoginError('Algo salio mal, intente mas tarde.'));
       }
     });
-  }
-
-  bool _validateLogin() {
-    return state.name.isNotEmpty &&
-        state.email.isNotEmpty &&
-        state.password.isNotEmpty &&
-        state.methodLogin.isNotEmpty;
   }
 }
