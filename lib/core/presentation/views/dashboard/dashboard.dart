@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/data/models/respositories/dashboardRepository.dart';
+import 'package:flutter_application_1/core/data/models/respositories/transfersRepository.dart';
 import 'package:flutter_application_1/core/domain/models/dashboardModel.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_dashboard_data.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_movements_data.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_bloc.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_event.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_state.dart';
@@ -26,7 +28,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DashboardBloc(LoadDashboardData(dashboardRepository()))..add(LoadDashboardDataEvent()),
+      create: (context) => DashboardBloc(LoadDashboardData(dashboardRepository(), LoadMovementsData() as transfersRepository))..add(LoadDashboardDataEvent()),
       child: Scaffold(
         body: BlocListener<DashboardBloc,DashboardState>(
           listener: (context, state) async {
