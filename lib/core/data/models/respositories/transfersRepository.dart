@@ -50,10 +50,10 @@ class transfersRepository implements implTransfersRepository {
 
     if (token == null || token.isEmpty) {
       result.status = '400';
-      result.data = 'No se puedo obtener el token';
+      result.message = 'No se puedo obtener el token';
       return result;
     }
-
+  configurationDio(token);
     try {
       Response response = await dio.get(
         '$apiUrl/transferences',

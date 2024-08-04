@@ -42,7 +42,7 @@ class servicesRepository implements implServicesRepository {
       result.data = 'No se puedo obtener el token';
       return result;
     }
-
+  configurationDio(token);
     try {
       Response response = await dio.get(
         '$apiUrl/services',
@@ -50,7 +50,7 @@ class servicesRepository implements implServicesRepository {
 
       if (response.statusCode == 200) {
         var data = response.data;
-        services = ServiceDTO.fromJsonList(data['data']);
+        services = ServiceDTO.fromJsonList(data);
         result.data = services;
         result.status = '200';
       }
@@ -83,7 +83,7 @@ class servicesRepository implements implServicesRepository {
       idUser = int.parse(IdUser);
     }
 
-    
+    configurationDio(token);
     try {
       Response response = await dio.get(
         '$apiUrl/log-services',
@@ -110,5 +110,67 @@ class servicesRepository implements implServicesRepository {
     }
 
     return result;
+  }
+@override
+  Future<ResponseAPI> getBillsInPaidService() async
+  {
+     ResponseAPI result = ResponseAPI(status: '400', data: {});
+
+       List<PaidServiceDTO> services = [];
+
+    var responsePaidServices = await getPaidServices();
+    if(responsePaidServices.status != '200')
+    {
+      return responsePaidServices;
+    }
+
+    if(responsePaidServices.data is List<PaidServiceDTO>)
+    {
+      services = responsePaidServices.data as List<PaidServiceDTO>;
+    }
+
+    String? idUser = await storage.read(key: 'IdUser');
+
+    if (idUser == null || idUser.isEmpty) {
+      result.status = '400';
+      result.message = 'No se puedo obtener el usuarios';
+      return result;
+    }
+
+    int id = int.parse(idUser);
+    double bills = 0;
+
+    var servicesBills = services.where((element) => element.idUsers == id);
+
+    for(var service in servicesBills)
+    {
+        bills += double.parse(service.amount);
+    }
+
+    result.data = bills;
+    result.status = '200';
+
+    return result;
+  }
+
+  configurationDio(String token) async {
+    // Configurar interceptor para añadir el token JWT
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        // Obtener el token JWT
+        // Agregar el token a las cabeceras de la solicitud
+        options.headers['Authorization'] = 'Bearer $token';
+        // Continuar con la solicitud
+        return handler.next(options);
+      },
+      onResponse: (response, handler) {
+        // Procesar la respuesta
+        return handler.next(response);
+      },
+      onError: (DioError e, handler) {
+        // Manejar errores
+        return handler.next(e);
+      },
+    ));
   }
 }

@@ -9,29 +9,32 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final LoadDashboardData loadDashboardData;
   Logger logger = Logger();
 
-  DashboardBloc(this.loadDashboardData) : super( DashboardInitial( )) {
-
-     on<LoadDashboardDataEvent>((event, emit) async {
+  DashboardBloc(this.loadDashboardData) : super(DashboardInitial()) {
+    on<LoadDashboardDataEvent>((event, emit) async {
       emit(DashboardLoading());
-    
-     DashboardModel dashboardData = DashboardModel(name: ' cargando...', totalAmount: 0, income: ' cargando...', bills: ' cargando...', movements: []);
+
+      DashboardModel dashboardData = DashboardModel(
+          name: ' cargando...',
+          totalAmount: 0,
+          income: ' cargando...',
+          bills: ' cargando...',
+          movements: []);
 
       var responseDashboard = await loadDashboardData.getDashboard();
       logger.i(responseDashboard);
 
-    if(responseDashboard.status != "200")
-    {
-      emit(DashboardError(responseDashboard.message,dashboardData));
-    }
-    if(responseDashboard.data is DashboardModel)
-    {
-     dashboardData = responseDashboard.data as DashboardModel;
-    }
-    emit(DashboardLoaded(dashboardData));
+      if (responseDashboard.status != "200") {
+        emit(DashboardError(responseDashboard.message, dashboardData));
+      }
 
-     });
+      if (responseDashboard.data is DashboardModel) {
+        dashboardData = responseDashboard.data as DashboardModel;
+      }
+
+      emit(DashboardLoaded(dashboardData));
+    });
   }
-  }
+}
   //   on<NameChanged>((event, emit) {
   //     emit(state.copyWith(name: event.name, isValid: _validateDashboard()));
   //   });

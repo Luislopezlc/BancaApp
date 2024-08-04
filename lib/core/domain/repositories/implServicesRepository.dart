@@ -8,5 +8,5 @@ Future<ServicesModel> loadServicesModel();
 Future<ListServicesModel> loadListServicesModel();
 Future<ResponseAPI> getServices();
 Future<ResponseAPI> getPaidServices();
-
+Future<ResponseAPI> getBillsInPaidService();
 }

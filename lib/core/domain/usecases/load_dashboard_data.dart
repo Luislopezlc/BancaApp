@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter_application_1/core/data/models/respositories/dashboardRepository.dart';
 import 'package:flutter_application_1/core/data/models/respositories/movementsRepository.dart';
+import 'package:flutter_application_1/core/data/models/respositories/servicesRepository.dart';
 import 'package:flutter_application_1/core/data/models/respositories/transfersRepository.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/accountDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/cardDTO.dart';
@@ -18,9 +19,10 @@ class LoadDashboardData {
   final transfersRepository transferRepository;
   final LoadMovementsData movementsData;
   final LoadtransferData dataTransfer;
-  final storage = FlutterSecureStorage();
+  final servicesRepository paidServicesRepository;
+  final storage = const FlutterSecureStorage();
   LoadDashboardData(
-      this.repository, this.transferRepository, this.movementsData,this.dataTransfer);
+      this.repository, this.transferRepository, this.movementsData,this.dataTransfer,this.paidServicesRepository);
 
   Future<DashboardModel> call() async {
     final dashboardData = await repository.loadDashboardModel();
@@ -80,7 +82,7 @@ class LoadDashboardData {
       String? cardNumber = await storage.read(key: 'CardNumber');
 
       if (cardNumber == null || cardNumber.isEmpty) {
-        await storage.write(key: 'Card', value: card.cardNumber);
+        await storage.write(key: 'CardNumber', value: card.cardNumber);
       }
 
       String? cardAccount = await storage.read(key: 'CardAccount');
@@ -109,7 +111,27 @@ class LoadDashboardData {
     
     dashboardData.income = incomeResponse.data as String;
 
+
+    var responseBillsInTransfers = await dataTransfer.getBillsInTranfers();
+     if(responseBillsInTransfers.status != '200')
+    {
+        return responseBillsInTransfers;
+    }
+
+    double bills = responseBillsInTransfers.data as double;
+
+    var responseBillsInPaidServices = await paidServicesRepository.getBillsInPaidService();
+     if(responseBillsInPaidServices.status != '200')
+    {
+        return responseBillsInPaidServices;
+    }
+
+    bills += responseBillsInPaidServices.data as double;
+
+    dashboardData.bills = bills.toString();
+    
     result.data = dashboardData;
+    result.status = '200';
     return result;
   }
 }

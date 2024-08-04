@@ -24,4 +24,6 @@ class LoadRegisterData {
     var response = await repository.saveUser(request);
     return response;
   }
+
+ 
 }

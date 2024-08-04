@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/data/models/respositories/dashboardRepository.dart';
+import 'package:flutter_application_1/core/data/models/respositories/movementsRepository.dart';
+import 'package:flutter_application_1/core/data/models/respositories/servicesRepository.dart';
 import 'package:flutter_application_1/core/data/models/respositories/transfersRepository.dart';
 import 'package:flutter_application_1/core/domain/models/dashboardModel.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_dashboard_data.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_movements_data.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_transfer_data.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_bloc.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_event.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_state.dart';
@@ -14,6 +17,7 @@ import 'package:flutter_application_1/core/presentation/views/transfers/transfer
 import 'package:flutter_application_1/core/presentation/views/wallet/wallet.dart';
 import 'package:flutter_application_1/core/presentation/views/withdrawals/withdrawals.dart';
 import 'package:flutter_application_1/core/presentation/widgets/CardMovementWidget.dart';
+import 'package:flutter_application_1/core/presentation/widgets/ToastMessageWidget.dart';
 import 'package:flutter_application_1/core/presentation/widgets/buttonOptionWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,20 +32,23 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DashboardBloc(LoadDashboardData(dashboardRepository(), LoadMovementsData() as transfersRepository))..add(LoadDashboardDataEvent()),
+      create: (context) => DashboardBloc(LoadDashboardData(dashboardRepository(), transfersRepository(),  LoadMovementsData(movementsRepository(),transfersRepository(),servicesRepository()), LoadtransferData(transfersRepository()),servicesRepository()))..add(LoadDashboardDataEvent()),
       child: Scaffold(
         body: BlocListener<DashboardBloc,DashboardState>(
           listener: (context, state) async {
-            
+            if(state is DashboardError)
+            {
+              ToastMessageWidget.show(context,state.message);
+            }
           }, child: BlocBuilder<DashboardBloc,DashboardState>(
             builder: (context, state) {
               if(state is DashboardInitial || state is DashboardLoading )
               {
-               return BuilDashboard(context, DashboardModel(name: 'cargando...', totalAmount: 0, income: ' cargando...', bills: 'cargando...', movements: []));
+               return builDashboard(context, DashboardModel(name: 'cargando...', totalAmount: 0, income: ' cargando...', bills: 'cargando...', movements: []));
               }
               if(state is DashboardLoaded)
               {
-                 return BuilDashboard(context, state.model);
+                 return builDashboard(context, state.model);
               }
               else{
                 return ErrorPage();
@@ -56,7 +63,7 @@ class DashboardPage extends StatelessWidget {
 
 
 
-Widget BuilDashboard(BuildContext context, DashboardModel model)
+Widget builDashboard(BuildContext context, DashboardModel model)
 {
    return SingleChildScrollView(
             child: Column(

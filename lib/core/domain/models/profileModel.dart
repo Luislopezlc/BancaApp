@@ -6,15 +6,17 @@ part 'profileModel.g.dart';
 
 class ProfileModel {
   String name;
+  String lastname;
   String email;
   String number;
-  String address;
+  String rfc;
 
   ProfileModel({
 required this.name,
+required this.lastname,
 required this.email,
 required this.number,
-required this.address
+required this.rfc
   });
 
 factory ProfileModel.fromJson(Map<String, dynamic> json) => _$ProfileModelFromJson(json);
