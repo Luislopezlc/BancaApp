@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/data/models/respositories/dashboardRepository.dart';
+import 'package:flutter_application_1/core/domain/models/dashboardModel.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_dashboard_data.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_bloc.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_event.dart';
 import 'package:flutter_application_1/core/presentation/bloc/dashboard_state.dart';
+import 'package:flutter_application_1/core/presentation/views/errorPage.dart';
 import 'package:flutter_application_1/core/presentation/views/movements/movements.dart';
 import 'package:flutter_application_1/core/presentation/views/servicesPay/servicesPay.dart';
 import 'package:flutter_application_1/core/presentation/views/transfers/transfers.dart';
 import 'package:flutter_application_1/core/presentation/views/wallet/wallet.dart';
 import 'package:flutter_application_1/core/presentation/views/withdrawals/withdrawals.dart';
 import 'package:flutter_application_1/core/presentation/widgets/CardMovementWidget.dart';
+import 'package:flutter_application_1/core/presentation/widgets/buttonOptionWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Dashboard extends StatelessWidget {
@@ -23,13 +26,37 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DashboardBloc(
-        LoadDashboardData(dashboardRepository()),
-      )..add(LoadDashboardDataEvent()),
+      create: (context) => DashboardBloc(LoadDashboardData(dashboardRepository()))..add(LoadDashboardDataEvent()),
       child: Scaffold(
-        body: BlocBuilder<DashboardBloc, DashboardState>(
+        body: BlocListener<DashboardBloc,DashboardState>(
+          listener: (context, state) async {
+            
+          }, child: BlocBuilder<DashboardBloc,DashboardState>(
             builder: (context, state) {
-          return SingleChildScrollView(
+              if(state is DashboardInitial || state is DashboardLoading )
+              {
+               return BuilDashboard(context, DashboardModel(name: 'cargando...', totalAmount: 0, income: ' cargando...', bills: 'cargando...', movements: []));
+              }
+              if(state is DashboardLoaded)
+              {
+                 return BuilDashboard(context, state.model);
+              }
+              else{
+                return ErrorPage();
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+Widget BuilDashboard(BuildContext context, DashboardModel model)
+{
+   return SingleChildScrollView(
             child: Column(
               children: [
                 Container(
@@ -39,7 +66,7 @@ class DashboardPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Bienvenida, America',
+                        'Hola, ' + model.name,
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -57,7 +84,7 @@ class DashboardPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '\$${state.totalAmount}',
+                            '\$${model.totalAmount}',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -158,7 +185,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '\$${state.income}',
+                              '\$${model.income}',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -180,7 +207,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '\$${state.bills}',
+                              '\$${model.bills}',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -229,7 +256,7 @@ class DashboardPage extends StatelessWidget {
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: state.movements.map((movement) {
+                          children: model.movements.map((movement) {
                             return Column(
                               children: [
                                 CardMovementWidget(
@@ -249,43 +276,8 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
           );
-        }),
-      ),
-    );
-  }
 }
 
-class ButtonOption extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
 
-  const ButtonOption({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(
-          icon: Icon(icon, size: 32),
-          onPressed: onPressed,
-        ),
-        SizedBox(height: 8),
-        Text(
-          label,
-          style: TextStyle(
-            // Aquí puedes agregar los estilos que desees
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-      ],
-    );
-  }
-}
+

@@ -10,6 +10,7 @@ import 'package:flutter_application_1/core/presentation/bloc/login_event.dart';
 import 'package:flutter_application_1/core/presentation/views/errorPage.dart';
 import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 import 'package:flutter_application_1/core/presentation/views/login/register.dart';
+import 'package:flutter_application_1/core/presentation/widgets/ToastMessageWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter_application_1/core/presentation/bloc/login_state.dart';
@@ -43,9 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           }
           else if(state is LoginError)
           {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
+            ToastMessageWidget.show(context,state.message);
           }
         }, child: BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
@@ -64,8 +63,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  
 }
 
 

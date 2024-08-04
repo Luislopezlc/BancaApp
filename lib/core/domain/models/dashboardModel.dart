@@ -10,8 +10,8 @@ class DashboardModel
 {
  String name;
  double totalAmount;
- String income;
- String bills;
+ String income; //ingreso
+ String bills; //gastos
 List<MovementsModel> movements;
 
 

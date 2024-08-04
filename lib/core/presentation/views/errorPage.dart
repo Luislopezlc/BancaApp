@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/presentation/views/home/home.dart';
 
 class ErrorPage extends StatelessWidget {
   @override
@@ -46,8 +47,12 @@ class ErrorPage extends StatelessWidget {
                 SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    // Aquí navegas a la página principal
-                    Navigator.of(context).pop();
+                    Navigator.pushReplacement<void, void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => HomePage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,

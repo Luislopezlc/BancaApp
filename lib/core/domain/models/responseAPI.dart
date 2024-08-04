@@ -1,13 +1,13 @@
 class ResponseAPI {
    String status;
    Object data;
-
-  ResponseAPI({required this.status, required this.data});
+   String message;
+  ResponseAPI({required this.status, required this.data,this.message = ''});
 
  
   @override
   String toString() {
-    return 'ResponseAPI{status: $status, data: $data}';
+    return 'ResponseAPI{status: $status, data: $data, message: $message}';
   }
 }                                                                                                                       
 

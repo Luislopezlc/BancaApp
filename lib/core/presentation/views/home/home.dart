@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/presentation/views/dashboard/dashboard.dart';
 import 'package:flutter_application_1/core/presentation/views/profile/profile.dart';
 import 'package:flutter_application_1/core/presentation/views/support/Support.dart';
-import 'package:flutter_application_1/core/presentation/widgets/home2.dart';
-import 'package:flutter_application_1/core/presentation/widgets/perfil.dart';
-import 'package:flutter_application_1/core/presentation/widgets/settings.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
@@ -17,9 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   Widget contenidoDelBody = Dashboard(); 
-  var logger = Logger();
-
-
 
   void _onItemTapped(int index) async {
       

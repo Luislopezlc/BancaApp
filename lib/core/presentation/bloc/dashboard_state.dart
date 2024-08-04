@@ -1,60 +1,84 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_application_1/core/domain/models/dashboardModel.dart';
-import 'package:flutter_application_1/core/domain/models/movementsModel.dart';
 
 class DashboardState extends Equatable {
-  final String name;
-  final double totalAmount;
-  final String income;
-  final String bills;
-  final List<MovementsModel> movements; // Descomenta esto si MovementsModel está definido y quieres incluirlo
-  final bool isValid;
 
-  const DashboardState({
-    this.name = '',
-    this.totalAmount = 0.0,
-    this.income = '',
-    this.bills = '',
-   this.movements = const [], // Descomenta esto si MovementsModel está definido y quieres incluirlo
-    this.isValid = false,
-  });
+const DashboardState();
 
-  factory DashboardState.fromModel(DashboardModel model) {
-    return DashboardState(
-      name: model.name,
-      totalAmount: model.totalAmount,
-      income: model.income,
-      bills: model.bills,
-      movements: model.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
-      isValid: true,
-    );
-  }
-
-  DashboardState copyWith({
-    String? name,
-    double? totalAmount,
-    String? income,
-    String? bills,
-    List<MovementsModel>? movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
-    bool? isValid,
-  }) {
-    return DashboardState(
-      name: name ?? this.name,
-      totalAmount: totalAmount ?? this.totalAmount,
-      income: income ?? this.income,
-      bills: bills ?? this.bills,
-      movements: movements ?? this.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
-      isValid: isValid ?? this.isValid,
-    );
-  }
-
- @override
-  List<Object?> get props => [
-        name,
-        totalAmount,
-        income,
-        bills,
-        movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
-        isValid,
-      ];
+@override
+List<Object> get props => [];
 }
+
+class DashboardInitial extends DashboardState{}
+class DashboardLoading extends DashboardState{}
+class DashboardLoaded extends DashboardState{
+  final DashboardModel model;
+  const DashboardLoaded(this.model);
+    @override
+  List<Object> get props => [model];
+}
+class DashboardSuccess extends DashboardState{}
+class DashboardError extends DashboardState{
+  final String message;
+   final DashboardModel model;
+  const DashboardError(this.message,this.model);
+  @override
+  List<Object> get props => [message,model];
+}
+
+
+
+  // final String name;
+  // final double totalAmount;
+  // final String income;
+  // final String bills;
+  // final List<MovementsModel> movements; // Descomenta esto si MovementsModel está definido y quieres incluirlo
+  // final bool isValid;
+
+//   const DashboardState({
+//     this.name = '',
+//     this.totalAmount = 0.0,
+//     this.income = '',
+//     this.bills = '',
+//    this.movements = const [], // Descomenta esto si MovementsModel está definido y quieres incluirlo
+//     this.isValid = false,
+//   });
+
+//   factory DashboardState.fromModel(DashboardModel model) {
+//     return DashboardState(
+//       name: model.name,
+//       totalAmount: model.totalAmount,
+//       income: model.income,
+//       bills: model.bills,
+//       movements: model.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+//       isValid: true,
+//     );
+//   }
+
+//   DashboardState copyWith({
+//     String? name,
+//     double? totalAmount,
+//     String? income,
+//     String? bills,
+//     List<MovementsModel>? movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+//     bool? isValid,
+//   }) {
+//     return DashboardState(
+//       name: name ?? this.name,
+//       totalAmount: totalAmount ?? this.totalAmount,
+//       income: income ?? this.income,
+//       bills: bills ?? this.bills,
+//       movements: movements ?? this.movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+//       isValid: isValid ?? this.isValid,
+//     );
+//   }
+
+//  @override
+//   List<Object?> get props => [
+//         name,
+//         totalAmount,
+//         income,
+//         bills,
+//         movements, // Descomenta esto si MovementsModel está definido y quieres incluirlo
+//         isValid,
+//       ];

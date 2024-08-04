@@ -6,8 +6,9 @@ import 'package:flutter_application_1/core/presentation/bloc/register_bloc.dart'
 import 'package:flutter_application_1/core/presentation/bloc/register_event.dart';
 import 'package:flutter_application_1/core/presentation/bloc/register_state.dart';
 import 'package:flutter_application_1/core/presentation/views/errorPage.dart';
+import 'package:flutter_application_1/core/presentation/widgets/ToastMessageWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,70 +27,51 @@ class RegisterPage extends StatelessWidget {
           body: BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) async {
             if (state is RegisterSuccess) {
-              print('mensaje de success');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-
-
-            
-
+              ToastMessageWidget.show(context, state.message);
             } else if (state is RegisterError) {
-               print('mensaje de error');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-            else if (state is RegisterLoading) {
-               print('entro en loading');
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Enviando')),
-              );
+              ToastMessageWidget.show(context, state.message);
+            } else if (state is RegisterLoading) {
+              ToastMessageWidget.show(context, "Creando cuenta");
             }
           }, child: BlocBuilder<RegisterBloc, RegisterState>(
                   builder: (context, state) {
             if (state is RegisterInitial || state is RegisterLoading) {
-               print('mensaje de inicio');
-               return buildView(
-                context,
-                _formKey,
-                _nameController,
-                _lastnameController,
-                _emailController,
-                _rfcController,
-                _phoneController,
-                _passwordController);
-            } else if (state is RegisterSuccess) {
-               print('mensaje de success2');
               return buildView(
-                context,
-                _formKey,
-                _nameController,
-                _lastnameController,
-                _emailController,
-                _rfcController,
-                _phoneController,
-                _passwordController);
-            }else if (state is RegisterError) {
-               print('mensaje de error2');
-               return buildView(
-                context,
-                _formKey,
-                _nameController,
-                _lastnameController,
-                _emailController,
-                _rfcController,
-                _phoneController,
-                _passwordController);
-            }else{
+                  context,
+                  _formKey,
+                  _nameController,
+                  _lastnameController,
+                  _emailController,
+                  _rfcController,
+                  _phoneController,
+                  _passwordController);
+            } else if (state is RegisterSuccess) {
+              return buildView(
+                  context,
+                  _formKey,
+                  _nameController,
+                  _lastnameController,
+                  _emailController,
+                  _rfcController,
+                  _phoneController,
+                  _passwordController);
+            } else if (state is RegisterError) {
+              return buildView(
+                  context,
+                  _formKey,
+                  _nameController,
+                  _lastnameController,
+                  _emailController,
+                  _rfcController,
+                  _phoneController,
+                  _passwordController);
+            } else {
               return ErrorPage();
             }
-           
           })),
         ));
   }
 }
-
 
 Widget buildView(
     BuildContext context,
