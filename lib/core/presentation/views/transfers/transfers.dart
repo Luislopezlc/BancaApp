@@ -1,12 +1,14 @@
 import "package:flutter/material.dart";
 import "package:flutter_application_1/core/data/models/respositories/transfersRepository.dart";
+import "package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart";
+import "package:flutter_application_1/core/domain/models/transfersModel.dart";
 import "package:flutter_application_1/core/domain/usecases/load_transfer_data.dart";
 import "package:flutter_application_1/core/presentation/bloc/transfer_bloc.dart";
 import "package:flutter_application_1/core/presentation/bloc/transfer_event.dart";
 import "package:flutter_application_1/core/presentation/bloc/transfer_state.dart";
+import "package:flutter_application_1/core/presentation/views/errorPage.dart";
 import "package:flutter_application_1/core/presentation/widgets/CardTransfers.dart";
-import "package:flutter_application_1/core/presentation/widgets/CardWalletWidget.dart";
-import "package:flutter_application_1/core/presentation/widgets/CreditCardDetailsModal.dart";
+import "package:flutter_application_1/core/presentation/widgets/ToastMessageWidget.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class Transfers extends StatefulWidget {
@@ -14,6 +16,16 @@ class Transfers extends StatefulWidget {
 }
 
 class _Transfers extends State<Transfers> {
+  final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _banknameController = TextEditingController();
+  final TextEditingController _accountController = TextEditingController();
+  final TextEditingController _conceptController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+
+ 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -21,97 +33,117 @@ class _Transfers extends State<Transfers> {
         LoadtransferData(transfersRepository()),
       )..add(LoadTransferDataEvent()),
       child: Scaffold(
-        body: BlocBuilder<TransferBloc, TransferState>(
-          builder: (context, state) {
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
-                title: const Text(
-                  'Transferencias',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              body: Column(
-                children: [
-                  SizedBox(height: 10),
-                  Text(
-                    'Elige al destinatario',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0, // Tamaño del texto del subtítulo
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(bottom: 70), // Espacio para el botón
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: state.transfers.transfer.map((transfer) {
-                            return Column(
-                              children: [
-                                SizedBox(height: 10),
-                                CardTransfers(
-                                  textName: transfer.name,
-                                  texto: transfer.iconText,
-                                  diametro: 30.0,
-                                  espacioEntre:
-                                      10.0, // Espacio entre el círculo y el texto
-                                  onPressed: () {
-                                    // Evento al hacer clic en el botón
-                                    _showDialogTransfer(context, transfer.name);
-                                  },
-                                ),
-                                SizedBox(height: 8),
-                              ],
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Acción cuando se presiona el botón
-                          _showServiceDialog(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                20), // Ajusta el valor según sea necesario
-                          ),
-                          backgroundColor: Color.fromRGBO(
-                              124, 77, 246, 1.000), // Color de fondo del botón
-                          foregroundColor: Colors
-                              .white, // Color del texto del botón cuando está en el estado primario
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * .05,
-                              vertical: 25), // Ajusta el relleno del botón
-                        ),
-                        child: Text('Crear contacto'),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
+        body: BlocListener<TransferBloc, TransferState>(
+          listener: (context, state) async {
+            if (state is TransferError) {
+              ToastMessageWidget.show(context, state.message);
+            }
           },
+          child: BlocBuilder<TransferBloc, TransferState>(
+            builder: (context, state) {
+              if (state is TransferInitial || state is TransferLoading) {
+                return buildTransfer(context, []);
+              } else if (state is TransferLoaded) {
+                return buildTransfer(context, state.contacts);
+              } else if (state is TransferError) {
+                return buildTransfer(context, []);
+              } else {
+                return ErrorPage();
+              }
+            },
+          ),
         ),
       ),
     );
+  }
+
+  Widget buildTransfer(BuildContext context, List<TransferModel> transfers) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(124, 77, 246, 1.000),
+          title: const Text(
+            'Transferencias',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              const Text(
+                'Elige al destinatario',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0, // Tamaño del texto del subtítulo
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(bottom: 70), // Espacio para el botón
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: transfers.map((transfer) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            CardTransfers(
+                              textName: transfer.name,
+                              texto: transfer.iconText,
+                              diametro: 30.0,
+                              espacioEntre:
+                                  10.0, // Espacio entre el círculo y el texto
+                              onPressed: () {
+                                // Evento al hacer clic en el botón
+                                _showDialogTransfer(context, transfer.name,
+                                    transfer.creditCardNumber);
+                              },
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Acción cuando se presiona el botón
+                      _showServiceDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            20), // Ajusta el valor según sea necesario
+                      ),
+                      backgroundColor: const Color.fromRGBO(
+                          124, 77, 246, 1.000), // Color de fondo del botón
+                      foregroundColor: Colors
+                          .white, // Color del texto del botón cuando está en el estado primario
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * .05,
+                          vertical: 25), // Ajusta el relleno del botón
+                    ),
+                    child: const Text('Crear contacto'),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
   void _showServiceDialog(BuildContext context) {
@@ -119,17 +151,33 @@ class _Transfers extends State<Transfers> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Nuevo contacto'),
-          content: const Column(
+          title: const Text('Nuevo contacto'),
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                decoration: InputDecoration(labelText: 'Nombre del titular'),
+                controller: _nicknameController,
+                decoration: const InputDecoration(labelText: 'Nombre'),
               ),
               TextField(
-                decoration: InputDecoration(labelText: 'Número de tarjeta'),
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'Correo'),
               ),
+              TextField(
+                controller: _phoneController,
+                decoration: const InputDecoration(labelText: 'Teléfono'),
+              ),
+              TextField(
+                controller: _banknameController,
+                decoration:
+                    const InputDecoration(labelText: 'Nombre del banco'),
+              ),
+              TextField(
+                controller: _accountController,
+                decoration:
+                    const InputDecoration(labelText: 'Número de cuenta'),
+              )
             ],
           ),
           actions: <Widget>[
@@ -137,7 +185,7 @@ class _Transfers extends State<Transfers> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -149,7 +197,7 @@ class _Transfers extends State<Transfers> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: Text('Aceptar'),
+              child: const Text('Aceptar'),
             ),
           ],
         );
@@ -162,14 +210,14 @@ class _Transfers extends State<Transfers> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Acción relizada correctamente'),
-          content: Text('El contacto se guardo correctamente.'),
+          title: const Text('Acción relizada correctamente'),
+          content: const Text('El contacto se guardo correctamente.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Aceptar'),
+              child: const Text('Aceptar'),
             ),
           ],
         );
@@ -177,21 +225,24 @@ class _Transfers extends State<Transfers> {
     );
   }
 
-  void _showDialogTransfer(BuildContext context, String name) {
+ void _showDialogTransfer(BuildContext context, String name, String accountNumber) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Tranferir a: $name'),
-          content: const Column(
+          title: Text('Transferir a: $name'),
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
+                controller: _conceptController,
                 decoration: InputDecoration(labelText: 'Concepto'),
               ),
               TextField(
+                controller: _amountController,
                 decoration: InputDecoration(labelText: 'Monto'),
+                keyboardType: TextInputType.number,
               ),
             ],
           ),
@@ -200,19 +251,29 @@ class _Transfers extends State<Transfers> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
             ElevatedButton(
               onPressed: () {
+                PostTransferDTO transfer = PostTransferDTO(
+                  userAccount: '',
+                  receptorAccount: accountNumber,
+                  amount: int.parse(_amountController.text),
+                  concept: _conceptController.text,
+                  owner: '', // Supongo que el propietario es fijo.
+                );
+
+                // Envía el evento al Bloc
+                BlocProvider.of<TransferBloc>(context).add(TransferSendEvent(transfer));
+
                 Navigator.of(context).pop();
-                _showConfirmationDialogTransfer(context);
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: Text('Aceptar'),
+              child: const Text('Aceptar'),
             ),
           ],
         );
@@ -220,19 +281,20 @@ class _Transfers extends State<Transfers> {
     );
   }
 
+
   void _showConfirmationDialogTransfer(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Acción relizada correctamente'),
-          content: Text('Transferencia compleada correctamente.'),
+          title: const Text('Acción relizada correctamente'),
+          content: const Text('Transferencia compleada correctamente.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Aceptar'),
+              child: const Text('Aceptar'),
             ),
           ],
         );

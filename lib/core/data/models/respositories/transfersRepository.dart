@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/domain/configuration_variables.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/transferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
@@ -95,5 +97,98 @@ class transfersRepository implements implTransfersRepository {
         return handler.next(e);
       },
     ));
+  }
+  
+  @override
+  Future<ResponseAPI> getContacts() async {
+    ResponseAPI result = ResponseAPI(status: '400', data: {});
+    List<ContactDTO> contacts = [];
+
+    String? token = await storage.read(key: 'jwt_token');
+
+    if (token == null || token.isEmpty) {
+      result.status = '400';
+      result.message = 'No se puedo obtener el token';
+      return result;
+    }
+  configurationDio(token);
+    try {
+      Response response = await dio.get(
+        '$apiUrl/contacts',
+      );
+
+      if (response.statusCode == 200) {
+        var data = response.data;
+
+        if (data['status'] == 'Success') {
+          contacts = ContactDTO.listFromJson(data['data']);
+          result.data = contacts;
+          result.status = '200';
+        }
+      }
+    } catch (e) {
+      result.status = '400';
+      result.message = 'No se pudo obtener la información, intentar más tarde';
+    }
+
+    return result;
+  }
+
+  @override
+  Future<ResponseAPI> postTransfer(PostTransferDTO transfer) async {
+  ResponseAPI result = ResponseAPI(status: '400', data: {});
+    String? token = await storage.read(key: 'jwt_token');
+
+    if (token == null || token.isEmpty) {
+      result.status = '400';
+      result.message = 'No se puedo obtener el token';
+      return result;
+    }
+  configurationDio(token);
+     try {
+      Response response = await dio.post(
+        '$apiUrl/transferences',
+        data: transfer.toJson(),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var data = response.data;
+
+        if (data['status'] == 'Success') {
+          result.message = data['message'];
+          result.status = '200';
+        }
+      }
+    } catch (e) {
+      if (e is DioError) {
+      if (e.type == DioErrorType.response) {
+        Response? errorResponse = e.response;
+        if (errorResponse != null) {
+            if(errorResponse.statusCode == 401 || errorResponse.statusCode == 400)
+            { 
+              result.status = "400";
+              String message = errorResponse.data['message'];
+
+              if(message.contains('user'))
+              {
+              message = 'Hubo un error con tu cuenta, inténtalo más tarde';
+              }else if(message.contains('receptor'))
+              {
+                  message = 'La cuenta no existe. Verifica el número e inténtalo de nuevo.';
+              }
+              else{
+                  message = 'No se pudo realizar la acción, inténtalo más tarde';
+              }
+               result.message = message;
+            }
+          }
+        } 
+      }else{
+        result.status = '400';
+      result.message = 'No se pudo realizar la acción, inténtalo más tarde';
+      }
+    }
+
+  return result;
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter_application_1/core/data/models/respositories/transfersRepository.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/transferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
@@ -7,7 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoadtransferData {
   final transfersRepository repository;
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   LoadtransferData(this.repository);
   
   Future<TransferModel> call () async {
@@ -103,7 +105,8 @@ class LoadtransferData {
 
     double bills = 0;
 
-    var transferIncomes = transfers.where((element) => element.senderAccount == cardAccount && element.receptorAccount != cardNumber);
+    var transferIncomes = transfers.where((element) => (element.senderAccount == cardAccount || element.senderAccount == cardNumber)
+     && element.receptorAccount != cardNumber);
 
     for(var transfer in transferIncomes)
     {
@@ -115,4 +118,59 @@ class LoadtransferData {
 
     return result;
   }
+
+  Future<ResponseAPI> getContacts() async
+  {
+    ResponseAPI result = ResponseAPI(status: '400', data: {});
+    List<TransferModel> contacts = [];
+
+    var responseContact = await repository.getContacts();
+
+    if(responseContact.status != '200')
+    {
+      return responseContact;
+    }
+
+    var contactsApi = responseContact.data as List<ContactDTO>;
+
+    for(var contactApi in contactsApi)
+    {
+      var contact = TransferModel(name: '',creditCardNumber: '',iconText: '');
+      
+      contact.name = contactApi.nickname;
+
+      contact.creditCardNumber = contactApi.account;
+
+      contact.iconText = contactApi.nickname[0];
+
+      contacts.add(contact);
+    }
+
+    result.data = contacts;
+    result.status = '200';
+    
+    return result;
+  }
+
+Future<ResponseAPI> PostTranfers(PostTransferDTO transfer) async{
+  ResponseAPI result = ResponseAPI(status: '400', data: {});
+
+  String? cardNumber = await storage.read(key: 'CardNumber');
+  if(cardNumber == null || cardNumber.isEmpty)
+  {
+    result.message = 'No se pudo obtener tu número de tarjeta';
+    return result;
+  }
+  String? username = await storage.read(key: 'Username');
+  if(username == null || username.isEmpty)
+  {
+    result.message = 'No se pudo obtener tu nombre';
+    return result;
+  }
+
+
+  transfer.userAccount = cardNumber;
+
+  return result;
+}
 }

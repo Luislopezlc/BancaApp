@@ -12,7 +12,7 @@ WalletModel _$WalletModelFromJson(Map<String, dynamic> json) => WalletModel(
       dueDate: json['dueDate'] as String,
       cVV: json['cVV'] as String,
       imagenUrl: json['imagenUrl'] as String,
-      accountNumber : json['accountNumber'] as String,
+      accountNumber: json['accountNumber'] as String,
     );
 
 Map<String, dynamic> _$WalletModelToJson(WalletModel instance) =>
@@ -22,5 +22,5 @@ Map<String, dynamic> _$WalletModelToJson(WalletModel instance) =>
       'dueDate': instance.dueDate,
       'cVV': instance.cVV,
       'imagenUrl': instance.imagenUrl,
-      'accountNumber' : instance.accountNumber,
+      'accountNumber': instance.accountNumber,
     };

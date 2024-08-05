@@ -89,6 +89,11 @@ class LoadDashboardData {
       if (cardAccount == null || cardAccount.isEmpty) {
         await storage.write(key: 'CardAccount', value: card.cardAccount);
       }
+
+      String? username = await storage.read(key: 'Username');
+      if (cardAccount == null || cardAccount.isEmpty) {
+        await storage.write(key: 'Username', value: accountDTO.user.name);
+      }
     }
 
     var responseMovements = await movementsData.getMovements();
