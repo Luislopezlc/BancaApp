@@ -6,14 +6,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
   final LoadMovementsData loadMovementsData;
 
-  MovementsBloc(this.loadMovementsData) : super(const MovementsState()) {
+  MovementsBloc(this.loadMovementsData) : super(MovementsInitial()) {
     on<LoadMovementsDataEvent>((event, emit) async {
       final movementsData = await loadMovementsData();
-      emit(MovementsState.fromModel(movementsData));
+     // emit(MovementsState.fromModel(movementsData));
     });
+
+    on<LoadMovementsPrincipalView>((event, emit) async {
+
+        emit(MovementsLoading());
+
+        var resposeBills = await loadMovementsData.getBillsTotal();
+
+        if(resposeBills.status != '200')
+        {
+          emit(MovementsError(resposeBills.message));
+        }
+        else
+        {
+          double totalBills = resposeBills.data as double;
+          emit(MovementsLoaded(totalBills.toString()));
+        }
+     });
 
   }
 }
+
+
+
+
 //     on<NameChanged>((event, emit) {
 //       emit(state.copyWith(name: event.name, isValid: _validateMovements()));
 //     });

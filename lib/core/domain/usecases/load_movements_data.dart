@@ -6,12 +6,15 @@ import 'package:flutter_application_1/core/domain/models/apiModels/paidServiceDT
 import 'package:flutter_application_1/core/domain/models/apiModels/transferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/movementsModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
+import 'package:flutter_application_1/core/domain/usecases/load_transfer_data.dart';
 
 class LoadMovementsData {
   final movementsRepository repository;
   final transfersRepository transferRepository;
   final servicesRepository serviceRepository;
-  LoadMovementsData(this.repository, this.transferRepository, this.serviceRepository);
+  final LoadtransferData dataTransfer;
+  final servicesRepository paidServicesRepository;
+  LoadMovementsData(this.repository, this.transferRepository, this.serviceRepository, this.dataTransfer,this.paidServicesRepository);
 
   Future<MovementsModel> call() async {
     final movementsData = await repository.loadMovementsModel();
@@ -79,6 +82,31 @@ class LoadMovementsData {
 
     result.data = movements;
     result.status = '200';
+    return result;
+  }
+
+  Future<ResponseAPI> getBillsTotal() async
+  { 
+    ResponseAPI result = ResponseAPI(status: '400', data: {});
+    var responseBillsInTransfers = await dataTransfer.getBillsInTranfers();
+     if(responseBillsInTransfers.status != '200')
+    {
+        return responseBillsInTransfers;
+    }
+
+    double bills = responseBillsInTransfers.data as double;
+
+    var responseBillsInPaidServices = await paidServicesRepository.getBillsInPaidService();
+     if(responseBillsInPaidServices.status != '200')
+    {
+        return responseBillsInPaidServices;
+    }
+
+    bills += responseBillsInPaidServices.data as double;
+
+    result.data = bills;
+    result.status = '200';
+
     return result;
   }
 }

@@ -4,7 +4,7 @@ class LoadMovementsDataEvent extends MovementsEvent {}
 
 
 
-
+class LoadMovementsPrincipalView extends MovementsEvent {}
 
 
 
