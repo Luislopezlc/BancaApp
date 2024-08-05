@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/domain/configuration_variables.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/postContactDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/transferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
@@ -190,5 +191,37 @@ class transfersRepository implements implTransfersRepository {
     }
 
   return result;
+  }
+  
+  @override
+  Future<ResponseAPI> postContact(PostContactDTO contact) async {
+     ResponseAPI result = ResponseAPI(status: '400', data: {});
+     String? token = await storage.read(key: 'jwt_token');
+
+    if (token == null || token.isEmpty) {
+      result.status = '400';
+      result.message = 'No se puedo obtener el token';
+      return result;
+    }
+  configurationDio(token);
+
+  try {
+      Response response = await dio.post(
+        '$apiUrl/contacts',
+        data: contact.toJson(),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var data = response.data;
+
+        if (data['status'] == 'Success') {
+          result.status = '200';
+        }
+      }
+    } catch (e) {
+       result.status = '400';
+      result.message = 'No se pudo realizar la acción, inténtalo más tarde';
+    }
+    return result;
   }
 }

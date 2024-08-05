@@ -1,5 +1,7 @@
 
 import 'package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/postContactDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
 import 'package:flutter_application_1/core/domain/models/transfersModel.dart';
@@ -11,4 +13,5 @@ Future<ListTransfersModel> loadListTransferModel();
 Future<ResponseAPI> getTransfers();
 Future<ResponseAPI> getContacts();
 Future<ResponseAPI> postTransfer(PostTransferDTO transfer);
+Future<ResponseAPI> postContact(PostContactDTO contactDTO);
 }

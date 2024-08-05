@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_application_1/core/data/models/respositories/transfersRepository.dart";
 import "package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart";
+import "package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart";
+import "package:flutter_application_1/core/domain/models/apiModels/postContactDTO.dart";
 import "package:flutter_application_1/core/domain/models/transfersModel.dart";
 import "package:flutter_application_1/core/domain/usecases/load_transfer_data.dart";
 import "package:flutter_application_1/core/presentation/bloc/transfer_bloc.dart";
@@ -16,15 +18,7 @@ class Transfers extends StatefulWidget {
 }
 
 class _Transfers extends State<Transfers> {
-  final TextEditingController _nicknameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _banknameController = TextEditingController();
-  final TextEditingController _accountController = TextEditingController();
-  final TextEditingController _conceptController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
 
- 
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +31,10 @@ class _Transfers extends State<Transfers> {
           listener: (context, state) async {
             if (state is TransferError) {
               ToastMessageWidget.show(context, state.message);
+            } else if (state is TransferSending) {
+              ToastMessageWidget.show(context, state.message);
+            } else if (state is TransferSuccess) {
+              ToastMessageWidget.show(context, state.message);
             }
           },
           child: BlocBuilder<TransferBloc, TransferState>(
@@ -46,7 +44,11 @@ class _Transfers extends State<Transfers> {
               } else if (state is TransferLoaded) {
                 return buildTransfer(context, state.contacts);
               } else if (state is TransferError) {
-                return buildTransfer(context, []);
+                return buildTransfer(context, state.contacts);
+              } else if (state is TransferSending) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is TransferSuccess) {
+                return buildTransfer(context, state.contacts);
               } else {
                 return ErrorPage();
               }
@@ -146,10 +148,15 @@ class _Transfers extends State<Transfers> {
         ));
   }
 
-  void _showServiceDialog(BuildContext context) {
+  void _showServiceDialog(BuildContext _context) {
     showDialog(
-      context: context,
+      context: _context,
       builder: (BuildContext context) {
+          final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _banknameController = TextEditingController();
+  final TextEditingController _accountController = TextEditingController();
         return AlertDialog(
           title: const Text('Nuevo contacto'),
           content: Column(
@@ -190,7 +197,16 @@ class _Transfers extends State<Transfers> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _showConfirmationDialog(context);
+
+                PostContactDTO contact = PostContactDTO(
+                    nickname: _nicknameController.text,
+                    email: _emailController.text,
+                    phone: _phoneController.text,
+                    bankname: _banknameController.text,
+                    account: _banknameController.text);
+
+                  BlocProvider.of<TransferBloc>(_context).add(ContactSendEvent(contact));
+
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -225,10 +241,14 @@ class _Transfers extends State<Transfers> {
     );
   }
 
- void _showDialogTransfer(BuildContext context, String name, String accountNumber) {
+  void _showDialogTransfer(
+      BuildContext _context, String name, String accountNumber) {
     showDialog(
-      context: context,
+      context: _context,
       builder: (BuildContext context) {
+        final TextEditingController _conceptController =
+            TextEditingController();
+        final TextEditingController _amountController = TextEditingController();
         return AlertDialog(
           title: Text('Transferir a: $name'),
           content: Column(
@@ -264,7 +284,8 @@ class _Transfers extends State<Transfers> {
                 );
 
                 // Envía el evento al Bloc
-                BlocProvider.of<TransferBloc>(context).add(TransferSendEvent(transfer));
+                BlocProvider.of<TransferBloc>(_context)
+                    .add(TransferSendEvent(transfer));
 
                 Navigator.of(context).pop();
               },
@@ -280,7 +301,6 @@ class _Transfers extends State<Transfers> {
       },
     );
   }
-
 
   void _showConfirmationDialogTransfer(BuildContext context) {
     showDialog(

@@ -6,6 +6,7 @@ import 'package:flutter_application_1/core/domain/configuration_variables.dart';
 import 'package:flutter_application_1/core/domain/models/ServicesModel.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/ServiceDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/paidServiceDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/postServiceDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listServicesModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
 import 'package:flutter_application_1/core/domain/repositories/implServicesRepository.dart';
@@ -172,5 +173,44 @@ class servicesRepository implements implServicesRepository {
         return handler.next(e);
       },
     ));
+  }
+  
+  @override
+  Future<ResponseAPI> postService(PostServiceDTO service) async {
+     ResponseAPI result = ResponseAPI(status: '400', data: {});
+    String? token = await storage.read(key: 'jwt_token');
+
+    if (token == null || token.isEmpty) {
+      result.status = '400';
+      result.data = 'No se puedo obtener el token';
+      return result;
+    }
+  configurationDio(token);
+    try {
+      Response response = await dio.post(
+        '$apiUrl/log-services',
+        data: service.toJson(),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var data = response.data;
+        if(data['status'] == 'Success')
+        {
+          result.status = '200';
+          result.message = 'Se ha realizado el pago con éxito';
+        }
+        else
+        {
+          result.message = 'No se ha podido realizar el pago.';
+        }
+        
+      }
+    } catch (e) {
+      result.status = '400';
+      result.message = 'No se pudo obtener la información, intentar más tarde';
+    }
+
+    return result;
+
   }
 }

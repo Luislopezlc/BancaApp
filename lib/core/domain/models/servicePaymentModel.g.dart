@@ -8,6 +8,7 @@ part of 'servicePaymentModel.dart';
 
 ServicePaymentModel _$ServicePaymentModelFromJson(Map<String, dynamic> json) =>
     ServicePaymentModel(
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       imagenUrl: json['imagenUrl'] as String,
     );
@@ -15,6 +16,7 @@ ServicePaymentModel _$ServicePaymentModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ServicePaymentModelToJson(
         ServicePaymentModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'imagenUrl': instance.imagenUrl,
     };

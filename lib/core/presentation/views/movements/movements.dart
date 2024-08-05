@@ -1,9 +1,17 @@
 import "package:flutter/material.dart";
+import "package:flutter_application_1/core/data/models/respositories/movementsRepository.dart";
+import "package:flutter_application_1/core/data/models/respositories/servicesRepository.dart";
+import "package:flutter_application_1/core/data/models/respositories/transfersRepository.dart";
+import "package:flutter_application_1/core/domain/usecases/load_movements_data.dart";
+import "package:flutter_application_1/core/presentation/bloc/movements_bloc.dart";
+import "package:flutter_application_1/core/presentation/bloc/movements_event.dart";
+import "package:flutter_application_1/core/presentation/bloc/movements_state.dart";
 import "package:flutter_application_1/core/presentation/views/movements/historyMovements.dart";
 import "package:flutter_application_1/core/presentation/views/movements/movementsCategories.dart";
 import "package:flutter_application_1/core/presentation/widgets/CardMovementsWidget.dart";
 import "package:flutter_application_1/core/presentation/widgets/CardWalletWidget.dart";
 import "package:flutter_application_1/core/presentation/widgets/CreditCardDetailsModal.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class Movements extends StatefulWidget {
   _MovementsWidget createState() => _MovementsWidget();
@@ -12,7 +20,21 @@ class Movements extends StatefulWidget {
 class _MovementsWidget extends State<Movements> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(create: (context) =>
+      MovementsBloc(LoadMovementsData(movementsRepository(),transfersRepository(), servicesRepository()))
+      ..add(LoadMovementsDataEvent()),
+      child: BlocBuilder<MovementsBloc,MovementsState>(
+          builder: (context, state) {
+              return buildMovements(context);
+          } ,
+      )
+      
+    );
+  }
+
+Widget buildMovements (BuildContext context)
+{
+  return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
           title: const Text(
@@ -205,5 +227,6 @@ class _MovementsWidget extends State<Movements> {
             ),
           ],
         ));
-  }
+}
+
 }

@@ -12,29 +12,31 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
       emit(MovementsState.fromModel(movementsData));
     });
 
-    on<NameChanged>((event, emit) {
-      emit(state.copyWith(name: event.name, isValid: _validateMovements()));
-    });
-    on<DateChanged>((event, emit) {
-      emit(state.copyWith(date: event.date, isValid: _validateMovements()));
-    });
-    on<AmountChanged>((event, emit) {
-      emit(state.copyWith(amount: event.amount, isValid: _validateMovements()));
-    });
-    on<PaymentTypeChanged>((event, emit) {
-      emit(state.copyWith(paymentType: event.paymentType, isValid: _validateMovements()));
-    });
-    on<MovementsSubmitted>((event, emit) {
-      if (state.isValid) {
-        // Handle movements submission logic
-      }
-    });
+  }
+}
+//     on<NameChanged>((event, emit) {
+//       emit(state.copyWith(name: event.name, isValid: _validateMovements()));
+//     });
+//     on<DateChanged>((event, emit) {
+//       emit(state.copyWith(date: event.date, isValid: _validateMovements()));
+//     });
+//     on<AmountChanged>((event, emit) {
+//       emit(state.copyWith(amount: event.amount, isValid: _validateMovements()));
+//     });
+//     on<PaymentTypeChanged>((event, emit) {
+//       emit(state.copyWith(paymentType: event.paymentType, isValid: _validateMovements()));
+//     });
+//     on<MovementsSubmitted>((event, emit) {
+//       if (state.isValid) {
+//         // Handle movements submission logic
+//       }
+//     });
  
-  }
- bool _validateMovements() {
-    return state.name.isNotEmpty &&
-        state.date.isNotEmpty &&
-        state.amount > 0 &&
-        state.paymentType.isNotEmpty;
-  }
-  }
+//   }
+//  bool _validateMovements() {
+//     return state.name.isNotEmpty &&
+//         state.date.isNotEmpty &&
+//         state.amount > 0 &&
+//         state.paymentType.isNotEmpty;
+//   }
+  

@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/core/domain/models/ServicesModel.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/postServiceDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listServicesModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
 
@@ -9,4 +10,5 @@ Future<ListServicesModel> loadListServicesModel();
 Future<ResponseAPI> getServices();
 Future<ResponseAPI> getPaidServices();
 Future<ResponseAPI> getBillsInPaidService();
+Future<ResponseAPI> postService(PostServiceDTO service);
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_application_1/core/data/models/respositories/transfersRepository.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart';
+import 'package:flutter_application_1/core/domain/models/apiModels/postContactDTO.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/transferDTO.dart';
 import 'package:flutter_application_1/core/domain/models/listTransfersModel.dart';
 import 'package:flutter_application_1/core/domain/models/responseAPI.dart';
@@ -152,7 +153,7 @@ class LoadtransferData {
     return result;
   }
 
-Future<ResponseAPI> PostTranfers(PostTransferDTO transfer) async{
+Future<ResponseAPI> postTranfers(PostTransferDTO transfer) async{
   ResponseAPI result = ResponseAPI(status: '400', data: {});
 
   String? cardNumber = await storage.read(key: 'CardNumber');
@@ -168,9 +169,35 @@ Future<ResponseAPI> PostTranfers(PostTransferDTO transfer) async{
     return result;
   }
 
-
   transfer.userAccount = cardNumber;
 
+  transfer.owner = username;
+
+  var responseTransfersPost = await repository.postTransfer(transfer);
+
+  if(responseTransfersPost.status != '200')
+  {
+      return responseTransfersPost;
+  }
+
+  result.status = '200';
+  result.message = 'Se realizó correctamente la transferencia.';
   return result;
 }
+
+Future<ResponseAPI> postContact(PostContactDTO contact) async
+{
+  ResponseAPI result = ResponseAPI(status: '400', data: {});
+
+  var responseContact = await repository.postContact(contact);
+  if(responseContact.status != '200')
+  {
+      return responseContact;
+  }
+  result.status = '200';
+  result.message = 'Se ha guardado el contacto.';
+  return result;
+}
+
+
 }

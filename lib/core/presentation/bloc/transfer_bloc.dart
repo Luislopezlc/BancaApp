@@ -18,7 +18,7 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
       final transferData = await loadTransferData.getContacts();
       if(transferData.status != '200')
       {
-        emit(const TransferError('No se pudo cargar la infomación, intentar más tarde.'));
+        emit(const TransferError('No se pudo cargar la infomación, intentar más tarde.',[]));
       } 
       contacts = transferData.data as List<TransferModel>;
 
@@ -28,7 +28,52 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
 
     on<TransferSendEvent>((event, emit) async {
 
-      var responseTransfer = await 
+      emit(const TransferSending('Enviando'));
+      List<TransferModel> contacts = [];
+      final transferData = await loadTransferData.getContacts();
+      if(transferData.status != '200')
+      {
+        emit(const TransferError('No se pudo cargar la infomación, intentar más tarde.',[]));
+      } 
+      contacts = transferData.data as List<TransferModel>;
+
+       var responseTransfer = await loadTransferData.postTranfers(event.transfer);
+
+      if(responseTransfer.status != '200')
+      {
+        emit(TransferError(responseTransfer.message,contacts));
+      }else
+      {
+      emit(TransferSuccess(responseTransfer.message,contacts));
+      }
+
+
+    });
+
+
+    on<ContactSendEvent> ((event, emit) async {
+      emit(const TransferSending('Enviando'));
+      List<TransferModel> contacts = [];
+      
+
+       var reponseContact = await loadTransferData.postContact(event.contact);
+
+      final transferData = await loadTransferData.getContacts();
+      if(transferData.status != '200')
+      {
+        emit(const TransferError('No se pudo cargar la infomación, intentar más tarde.',[]));
+      } 
+
+      contacts = transferData.data as List<TransferModel>;
+
+
+      if(reponseContact.status != '200')
+      {
+        emit(TransferError(reponseContact.message,contacts));
+      }else
+      {
+      emit(TransferSuccess(reponseContact.message,contacts));
+      }
 
     });
   }

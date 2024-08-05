@@ -91,10 +91,18 @@ class LoadDashboardData {
       }
 
       String? username = await storage.read(key: 'Username');
-      if (cardAccount == null || cardAccount.isEmpty) {
+      if (username == null || username.isEmpty) {
         await storage.write(key: 'Username', value: accountDTO.user.name);
       }
+
+       String? idAccount = await storage.read(key: 'IdAccount');
+
+      if (idAccount == null || idAccount.isEmpty) {
+        await storage.write(key: 'IdAccount', value: card.idAccount.toString());
+      }
     }
+
+   
 
     var responseMovements = await movementsData.getMovements();
 
@@ -106,7 +114,7 @@ class LoadDashboardData {
       movements = responseMovements.data as List<MovementsModel>;
     }
 
-    dashboardData.movements = movements;
+    dashboardData.movements = movements.take(10).toList();
 
     var incomeResponse = await dataTransfer.getIncome();
     if(incomeResponse.status != '200')

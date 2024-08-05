@@ -9,8 +9,22 @@ class TransferState extends Equatable {
 }
 
 class TransferInitial extends TransferState{}
-class TransferSuccess extends TransferState{}
+class TransferSuccess extends TransferState{
+    final String message ;
+      final List<TransferModel> contacts;
+ const TransferSuccess(this.message,this.contacts);
+   @override
+  List<Object?> get props => [message,contacts];
+}
 class TransferLoading extends TransferState{}
+
+class TransferSending extends TransferState{
+  final String message ;
+ const TransferSending(this.message);
+   @override
+  List<Object?> get props => [message];
+}
+
 class TransferLoaded extends TransferState{
   final List<TransferModel> contacts;
   const TransferLoaded(this.contacts);
@@ -19,7 +33,8 @@ class TransferLoaded extends TransferState{
 }
 class TransferError extends TransferState{
   final String message ;
- const TransferError(this.message);
+  final List<TransferModel> contacts;
+ const TransferError(this.message,this.contacts);
    @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message,contacts];
 }
