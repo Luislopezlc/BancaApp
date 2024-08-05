@@ -203,7 +203,7 @@ class _Transfers extends State<Transfers> {
                     email: _emailController.text,
                     phone: _phoneController.text,
                     bankname: _banknameController.text,
-                    account: _banknameController.text);
+                    account: _accountController.text);
 
                   BlocProvider.of<TransferBloc>(_context).add(ContactSendEvent(contact));
 
