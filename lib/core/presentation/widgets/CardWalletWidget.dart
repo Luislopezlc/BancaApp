@@ -4,6 +4,7 @@ class CardWalletWidget extends StatelessWidget {
   final String cardNumber;
   final String cardHolder;
   final String imageUrl;
+  final String accountNumber;
   final VoidCallback onPressed;
 
   const CardWalletWidget({
@@ -11,6 +12,7 @@ class CardWalletWidget extends StatelessWidget {
     required this.cardNumber,
     required this.cardHolder,
     required this.imageUrl,
+    required this.accountNumber,
     required this.onPressed,
   }) ;
 

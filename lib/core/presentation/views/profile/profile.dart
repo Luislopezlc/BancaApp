@@ -63,7 +63,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
           builder: (context, state) {
             
             if (state is ProfileInitial ) {
-              return buildProfile(context);
+              return buildProfile(context,true);
             } 
             else if (state is ProfileLoading ) {
               _nameController.text = state.model.name;
@@ -71,14 +71,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
               _rFCController.text = state.model.rfc;
               _phoneController.text = state.model.number;
               _emailController.text = state.model.email;
-              return buildProfile(context);
+              return buildProfile(context,true);
             } else if (state is ProfileLoaded) {
               _nameController.text = state.model.name;
               _lastnameController.text = state.model.lastname;
               _rFCController.text = state.model.rfc;
               _phoneController.text = state.model.number;
               _emailController.text = state.model.email;
-              return buildProfile(context);
+              return buildProfile(context,true);
             }else if(state is ProfileSuccess)
             {
               _nameController.text = state.model.name;
@@ -86,7 +86,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               _rFCController.text = state.model.rfc;
               _phoneController.text = state.model.number;
               _emailController.text = state.model.email;
-              return buildProfile(context);
+              return buildProfile(context,true);
             }
             else if(state is ProfileSending)
             {
@@ -95,7 +95,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               _rFCController.text = _rFCController.text;
               _phoneController.text = _phoneController.text;
               _emailController.text = _emailController.text;
-              return buildProfile(context);
+              return buildProfile(context,false);
             }
             else if(state is ProfileError)
             {
@@ -104,7 +104,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               _rFCController.text = state.model.rfc;
               _phoneController.text = state.model.number;
               _emailController.text = state.model.email;
-              return buildProfile(context);
+              return buildProfile(context,true);
             }
              else {
               return ErrorPage();
@@ -115,7 +115,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
     );
   }
 
-  Widget buildProfile(BuildContext context) {
+  Widget buildProfile(BuildContext context,bool lockButton) {
     return SingleChildScrollView(
       child: Material(
         child: Padding(
@@ -138,7 +138,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: lockButton ? () {
                      // _saveProfileData();
                       PatchUserDTO user = PatchUserDTO(
                         name: _nameController.text,
@@ -150,8 +150,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       BlocProvider.of<ProfileBloc>(context)
                     .add(UpdateUserEvent(user));
 
-                    },
-                    child: const Text('Guardar'),
+                    } : null,
+                    child: lockButton ? const Text('Guardar') : const CircularProgressIndicator(),
                   ),
                 ],
               ),

@@ -4,10 +4,10 @@ abstract class ListWalletEvent {}
 
 class LoadListWalletDataEvent extends ListWalletEvent {}
 
-class CardsChanged extends LoadListWalletDataEvent
-{
-  final ListWalletModel cards;
-  CardsChanged(this.cards);
-}
+// class CardsChanged extends LoadListWalletDataEvent
+// {
+//   final ListWalletModel cards;
+//   CardsChanged(this.cards);
+// }
 
-class ListWalletSubmitted extends ListWalletEvent{}
+// class ListWalletSubmitted extends ListWalletEvent{}

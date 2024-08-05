@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/core/domain/models/listMovementsCategory.dart';
 import 'package:flutter_application_1/core/domain/models/listWalletModel.dart';
 import 'package:flutter_application_1/core/domain/repositories/implListWalletRepository.dart';
 

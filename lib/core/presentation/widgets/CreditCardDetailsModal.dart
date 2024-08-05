@@ -5,6 +5,7 @@ class CreditCardDetailsDialog extends StatelessWidget {
   final String cardHolder;
   final String expiryDate;
   final String cvv;
+  final String accountNumber;
 
   const CreditCardDetailsDialog({
 
@@ -12,6 +13,7 @@ class CreditCardDetailsDialog extends StatelessWidget {
     required this.cardHolder,
     required this.expiryDate,
     required this.cvv,
+    required this.accountNumber
   });
 
   @override
@@ -50,6 +52,11 @@ class CreditCardDetailsDialog extends StatelessWidget {
               'CVV: $cvv',
               style: TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 8),
+            Text(
+              'Número de cuenta: $accountNumber',
+              style: TextStyle(fontSize: 16),
+            ),
             SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -74,6 +81,7 @@ void showCreditCardDetailsDialog(BuildContext context, {
   required String cardHolder,
   required String expiryDate,
   required String cvv,
+  required String accountNumber,
 }) {
   showDialog(
     context: context,
@@ -83,6 +91,7 @@ void showCreditCardDetailsDialog(BuildContext context, {
         cardHolder: cardHolder,
         expiryDate: expiryDate,
         cvv: cvv,
+        accountNumber : accountNumber,
       );
     },
   );

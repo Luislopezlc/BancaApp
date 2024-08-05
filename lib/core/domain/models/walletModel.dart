@@ -11,6 +11,7 @@ class WalletModel
   String dueDate;
   String cVV;
   String imagenUrl;
+  String accountNumber;
 
   WalletModel({
   required this.name,
@@ -18,6 +19,7 @@ class WalletModel
   required this.dueDate,
   required this.cVV,
   required this.imagenUrl,
+  required this.accountNumber,
   });
 
   factory WalletModel.fromJson(Map<String, dynamic> json) => _$WalletModelFromJson(json);
