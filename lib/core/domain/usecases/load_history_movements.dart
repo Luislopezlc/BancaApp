@@ -11,4 +11,7 @@ class LoadHistoryMovementsData{
     final data = await this.repository.loadHistoryMovements();
     return data;
   }
+
+
+
 }

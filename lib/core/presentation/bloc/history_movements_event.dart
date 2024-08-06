@@ -10,7 +10,9 @@ abstract class HistoryMovementsEvent extends Equatable
 }
 
 
-class LoadHistoryMovementsDataEvent extends HistoryMovementsEvent {}
+class LoadHistoryMovementsDataEvent extends HistoryMovementsEvent {
+  List<Object?> get props => [];
+}
 
 
 class MovementsChanged extends HistoryMovementsEvent

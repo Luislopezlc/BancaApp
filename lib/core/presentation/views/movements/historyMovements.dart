@@ -1,10 +1,18 @@
 import "package:flutter/material.dart";
 import "package:flutter_application_1/core/data/models/respositories/historyMovementsRepository.dart";
+import "package:flutter_application_1/core/data/models/respositories/movementsRepository.dart";
+import "package:flutter_application_1/core/data/models/respositories/servicesRepository.dart";
+import "package:flutter_application_1/core/data/models/respositories/transfersRepository.dart";
+import "package:flutter_application_1/core/domain/models/movementsModel.dart";
 import "package:flutter_application_1/core/domain/usecases/load_history_movements.dart";
+import "package:flutter_application_1/core/domain/usecases/load_movements_data.dart";
+import "package:flutter_application_1/core/domain/usecases/load_transfer_data.dart";
 import "package:flutter_application_1/core/presentation/bloc/history_movements_bloc.dart";
 import "package:flutter_application_1/core/presentation/bloc/history_movements_event.dart";
 import "package:flutter_application_1/core/presentation/bloc/history_movements_state.dart";
+import "package:flutter_application_1/core/presentation/views/errorPage.dart";
 import "package:flutter_application_1/core/presentation/widgets/CardMovementWidget.dart";
+import "package:flutter_application_1/core/presentation/widgets/ToastMessageWidget.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class HistoryMovements extends StatefulWidget {
@@ -14,56 +22,109 @@ class HistoryMovements extends StatefulWidget {
 class _HistoryMovements extends State<HistoryMovements> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => HistoryMovementsBloc (
-      LoadHistoryMovementsData(historyMovementsRepository()),
-    )..add(LoadHistoryMovementsDataEvent()),
-    child: Scaffold(
-      body: BlocBuilder<HistoryMovementsBloc, HistoryMovementsState>(
-        builder: (context, state){
-          return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
-          title: const Text(
-            'Historial de compras',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+    return BlocProvider(
+        create: (context) => HistoryMovementsBloc(
+              LoadHistoryMovementsData(
+                  historyMovementsRepository()),
+                  LoadMovementsData(
+                      movementsRepository(),
+                      transfersRepository(),
+                      servicesRepository(),
+                      LoadtransferData(transfersRepository()),
+                      servicesRepository()),
+            )..add(LoadHistoryMovementsDataEvent()),
+        child: Scaffold(
+          body: BlocListener<HistoryMovementsBloc, HistoryMovementsState>(
+              listener: (context, state) async {
+                 if(state is HistoryMovementsError)
+                    {
+                      ToastMessageWidget.show(context, state.message);
+                    }
+              },
+              child: BlocBuilder<HistoryMovementsBloc, HistoryMovementsState>(
+                  builder: (context, state) {
+                    if(state is HistoryMovementsLoading ||state is HistoryMovementsInitial )
+                    {
+                      return buildInProcess(context);
+                    }
+                    else if(state is HistoryMovementsLoaded)
+                    {
+                      return buildMovements(context, state.movements);
+                    }
+                    else if(state is HistoryMovementsError)
+                    {
+                      return buildMovements(context, []);
+                    }
+                    else
+                    {
+                      return ErrorPage();
+                    }
+
+              
+              })),
+        ));
+  }
+}
+
+Widget buildMovements(BuildContext context, List<MovementsModel> movements) {
+  return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
+        title: const Text(
+          'Historial de compras',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Container(
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: SingleChildScrollView(
+          child: Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15), // Bordes redondeados
                 border: Border.all(color: Colors.grey), // Borde con color gris
               ),
               child: Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: state.movements.map((movement) {
-    return Column(
-      children: [
-        CardMovementWidget(
-          title1: movement.name,
-          title2: '\$${movement.amount.toStringAsFixed(2)}',
-          subtitle1: movement.date,
-          subtitle2: movement.paymentType,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: movements.map((movement) {
+                  return Column(
+                    children: [
+                      CardMovementWidget(
+                        title1: movement.name,
+                        title2: '\$${movement.amount.toStringAsFixed(2)}',
+                        subtitle1: movement.date,
+                        subtitle2: movement.paymentType,
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  );
+                }).toList(),
+              )),
         ),
-        SizedBox(height: 8),
-      ],
-    );
-  }).toList(),
-)
-            ),
+      ));
+}
+
+
+Widget buildInProcess(BuildContext context)
+{
+  return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(124, 77, 246, 1.000),
+        title: const Text(
+          'Historial de compras',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-        ));
-        }
+        ),
       ),
-    ),
-    );
-  }
+      body: const Center(child: CircularProgressIndicator())
+  );
 }
