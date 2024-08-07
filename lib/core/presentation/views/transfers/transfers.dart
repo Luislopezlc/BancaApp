@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_application_1/core/data/models/respositories/transfersRepository.dart";
 import "package:flutter_application_1/core/domain/models/apiModels/PostTransferDTO.dart";
 import "package:flutter_application_1/core/domain/models/apiModels/contactDTO.dart";
@@ -18,8 +19,6 @@ class Transfers extends StatefulWidget {
 }
 
 class _Transfers extends State<Transfers> {
-
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -152,41 +151,121 @@ class _Transfers extends State<Transfers> {
     showDialog(
       context: _context,
       builder: (BuildContext context) {
-          final TextEditingController _nicknameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _banknameController = TextEditingController();
-  final TextEditingController _accountController = TextEditingController();
+        final TextEditingController _nicknameController =
+            TextEditingController();
+        final TextEditingController _emailController = TextEditingController();
+        final TextEditingController _phoneController = TextEditingController();
+        final TextEditingController _banknameController =
+            TextEditingController();
+        final TextEditingController _accountController =
+            TextEditingController();
+        final _formKey = GlobalKey<FormState>();
         return AlertDialog(
           title: const Text('Nuevo contacto'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _nicknameController,
-                decoration: const InputDecoration(labelText: 'Nombre'),
-              ),
-              TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Correo'),
-              ),
-              TextField(
-                controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Teléfono'),
-              ),
-              TextField(
-                controller: _banknameController,
-                decoration:
-                    const InputDecoration(labelText: 'Nombre del banco'),
-              ),
-              TextField(
-                controller: _accountController,
-                decoration:
-                    const InputDecoration(labelText: 'Número de cuenta'),
-              )
-            ],
-          ),
+          content: Form(
+              key: _formKey, // Asocia la clave al Form
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: _nicknameController,
+                      decoration: const InputDecoration(labelText: 'Nombre'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'El nombre no puede estar vacio';
+                        }
+
+                        // Expresión regular para validar que el nombre no contenga números
+                        final namePattern = r"^[A-Za-z\s]+$";
+                        final regExp = RegExp(namePattern);
+
+                        if (!regExp.hasMatch(value)) {
+                          return 'El nombre no puede contener números';
+                        }
+
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(labelText: 'Correo'),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresa el correo';
+                        }
+                        final emailRegExp =
+                            RegExp(r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
+                        if (!emailRegExp.hasMatch(value)) {
+                          return 'Correo inválido';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _phoneController,
+                      decoration: const InputDecoration(labelText: 'Teléfono'),
+                      keyboardType:
+                          TextInputType.number, // Muestra el teclado numérico
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Permite solo dígitos
+                      ],
+                      maxLength: 13,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresa tu número de teléfono';
+                        }
+                        if (value.length < 10 || value.length > 13) {
+                          return 'De 10 a 13 dígitos requeridos';
+                        }
+                        // Expresión regular para validar el formato del teléfono
+                        final phonePattern = r"^\+?\d{10,13}$";
+                        final regExp = RegExp(phonePattern);
+
+                        if (!regExp.hasMatch(value)) {
+                          return 'El teléfono debe ser un número de teléfono válido';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _banknameController,
+                      decoration:
+                          const InputDecoration(labelText: 'Nombre del banco'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresa el banco';
+                        }
+
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _accountController,
+                      decoration:
+                          const InputDecoration(labelText: 'Número de tarjeta'),
+                      keyboardType:
+                          TextInputType.number, // Muestra el teclado numérico
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Permite solo dígitos
+                      ],
+                      maxLength: 16,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresa el número de tarjeta';
+                        }
+                        if (value.length < 16) {
+                          return 'El número debe ser de 16 dígitos';
+                        }
+                      },
+                    )
+                  ],
+                ),
+              )),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -196,17 +275,19 @@ class _Transfers extends State<Transfers> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                if (_formKey.currentState!.validate()) {
+                  Navigator.of(context).pop();
 
-                PostContactDTO contact = PostContactDTO(
-                    nickname: _nicknameController.text,
-                    email: _emailController.text,
-                    phone: _phoneController.text,
-                    bankname: _banknameController.text,
-                    account: _accountController.text);
+                  PostContactDTO contact = PostContactDTO(
+                      nickname: _nicknameController.text,
+                      email: _emailController.text,
+                      phone: _phoneController.text,
+                      bankname: _banknameController.text,
+                      account: _accountController.text);
 
-                  BlocProvider.of<TransferBloc>(_context).add(ContactSendEvent(contact));
-
+                  BlocProvider.of<TransferBloc>(_context)
+                      .add(ContactSendEvent(contact));
+                }
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -246,25 +327,44 @@ class _Transfers extends State<Transfers> {
     showDialog(
       context: _context,
       builder: (BuildContext context) {
+        final _formKey = GlobalKey<FormState>();
         final TextEditingController _conceptController =
             TextEditingController();
         final TextEditingController _amountController = TextEditingController();
         return AlertDialog(
           title: Text('Transferir a: $name'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _conceptController,
-                decoration: InputDecoration(labelText: 'Concepto'),
-              ),
-              TextField(
-                controller: _amountController,
-                decoration: InputDecoration(labelText: 'Monto'),
-                keyboardType: TextInputType.number,
-              ),
-            ],
+          content: Form(
+            key: _formKey, // Asocia la clave al Form
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: _conceptController,
+                  decoration: InputDecoration(labelText: 'Concepto'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'El concepto no debe estar vacío';
+                    }
+                  },
+                ),
+                TextFormField(
+                  controller: _amountController,
+                  decoration: InputDecoration(labelText: 'Monto'),
+                  keyboardType:
+                      TextInputType.number, // Muestra el teclado numérico
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter
+                        .digitsOnly, // Permite solo dígitos
+                  ],
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'El monto no debe estar vacío';
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -275,19 +375,21 @@ class _Transfers extends State<Transfers> {
             ),
             ElevatedButton(
               onPressed: () {
-                PostTransferDTO transfer = PostTransferDTO(
-                  userAccount: '',
-                  receptorAccount: accountNumber,
-                  amount: int.parse(_amountController.text),
-                  concept: _conceptController.text,
-                  owner: '', // Supongo que el propietario es fijo.
-                );
+                if (_formKey.currentState!.validate()) {
+                  PostTransferDTO transfer = PostTransferDTO(
+                    userAccount: '',
+                    receptorAccount: accountNumber,
+                    amount: int.parse(_amountController.text),
+                    concept: _conceptController.text,
+                    owner: '', // Supongo que el propietario es fijo.
+                  );
 
-                // Envía el evento al Bloc
-                BlocProvider.of<TransferBloc>(_context)
-                    .add(TransferSendEvent(transfer));
+                  // Envía el evento al Bloc
+                  BlocProvider.of<TransferBloc>(_context)
+                      .add(TransferSendEvent(transfer));
 
-                Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                }
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

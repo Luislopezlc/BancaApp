@@ -58,7 +58,7 @@ Future<ResponseAPI>getCards() async
 
       cardModel.cVV = generateRandomCvv();
 
-      cardModel.creditCardNumber = formatCardNumber(card.cardNumber);
+      cardModel.creditCardNumber = card.cardNumber;
 
       cardModel.dueDate = generateRandomExpirationDate();
 
@@ -91,23 +91,3 @@ Future<ResponseAPI>getCards() async
     return '$monthStr/$year';
   }
 
-
-  String formatCardNumber(String cardNumber) {
-  // Remover cualquier espacio existente en el número de tarjeta
-  cardNumber = cardNumber.replaceAll(' ', '');
-  
-  // Asegurarse de que el número de tarjeta tenga solo dígitos
-  if (!RegExp(r'^\d+$').hasMatch(cardNumber)) {
-    throw FormatException('El número de tarjeta debe contener solo dígitos');
-  }
-  
-  // Dividir el número de tarjeta en grupos de 4 dígitos
-  List<String> parts = [];
-  for (int i = 0; i < cardNumber.length; i += 4) {
-    int end = (i + 4 < cardNumber.length) ? i + 4 : cardNumber.length;
-    parts.add(cardNumber.substring(i, end));
-  }
-  
-  // Unir los grupos con espacios
-  return parts.join(' ');
-}

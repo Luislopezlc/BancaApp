@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/cupertino.dart'; // Importa Cupertino para widgets nativos de iOS
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/data/models/respositories/loginRepository.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/loginDTO.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_login_data.dart';
@@ -23,7 +24,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -32,19 +32,15 @@ class _LoginPageState extends State<LoginPage> {
         body: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) async {
           if (state is LoginInitial || state is LoginLoading) {
-
-          }else if(state is LoginSuccess)
-          {
+          } else if (state is LoginSuccess) {
             Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => HomePage(),
-          ),
-        );
-          }
-          else if(state is LoginError)
-          {
-            ToastMessageWidget.show(context,state.message);
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => HomePage(),
+              ),
+            );
+          } else if (state is LoginError) {
+            ToastMessageWidget.show(context, state.message);
           }
         }, child: BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
@@ -54,8 +50,7 @@ class _LoginPageState extends State<LoginPage> {
               return builLogin(context);
             } else if (state is LoginError) {
               return builLogin(context);
-            } 
-            else {
+            } else {
               return ErrorPage();
             }
           },
@@ -65,164 +60,215 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
 Widget builLogin(BuildContext context) {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-    return SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/Images/Login.jpg"),
-            fit: BoxFit.cover,
-          ),
+  return SingleChildScrollView(
+    child: Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/Images/Login.jpg"),
+          fit: BoxFit.cover,
         ),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 180.0),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 50.0, vertical: 5.0),
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 25.0),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bienvenido',
+      ),
+      child: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 180.0),
+            Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 50.0, vertical: 5.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Bienvenido',
+                    style: TextStyle(
+                      color: Colors.white, // Color del texto
+                      fontSize: 32.0, // Tamaño de la fuente
+                      fontWeight: FontWeight.bold, // Peso de la fuente
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 30.0, bottom: 15.0),
+                    child: TextField(
+                      controller: _numberController,
+                      keyboardType:
+                          TextInputType.number, // Muestra el teclado numérico
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Permite solo dígitos
+                      ],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Telefono',
+                        labelStyle: TextStyle(
+                          color: Colors.white, // Color del texto
+                          fontSize: 12.0, // Tamaño de la fuente
+                          fontWeight: FontWeight.bold, // Peso de la fuente
+                        ),
+                        suffixIcon: const Icon(Icons
+                            .phone), // Cambia el ícono a uno más apropiado para teléfono
+                      ),
                       style: TextStyle(
                         color: Colors.white, // Color del texto
-                        fontSize: 32.0, // Tamaño de la fuente
+                        fontSize: 14.0, // Tamaño de la fuente
                         fontWeight: FontWeight.bold, // Peso de la fuente
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 30.0, bottom: 15.0),
-                      child: TextField(
-                        controller: _numberController,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                    child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Telefono',
-                          labelStyle: TextStyle(
-                            color: Colors.white, // Color del texto
-                            fontSize: 12.0, // Tamaño de la fuente
-                            fontWeight: FontWeight.bold, // Peso de la fuente
+                          labelText: 'Contraseña',
+                          labelStyle: const TextStyle(
+                            color:
+                                Colors.white, // Color del texto de la etiqueta
+                            fontSize:
+                                12.0, // Tamaño de la fuente de la etiqueta
+                            fontWeight: FontWeight
+                                .bold, // Peso de la fuente de la etiqueta
                           ),
-                          suffixIcon: const Icon(Icons.email),
+                          // Establecer el color del texto del TextField
+                          // Aquí establecemos el color del texto del TextField como blanco
+                          // Puedes ajustar el estilo según tus preferencias
+                          hintStyle: TextStyle(color: Colors.white),
+                          // Puedes agregar más estilos según sea necesario
                         ),
                         style: TextStyle(
                           color: Colors.white, // Color del texto
                           fontSize: 14.0, // Tamaño de la fuente
                           fontWeight: FontWeight.bold, // Peso de la fuente
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: TextField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Contraseña',
-                            labelStyle: const TextStyle(
-                              color: Colors
-                                  .white, // Color del texto de la etiqueta
-                              fontSize:
-                                  12.0, // Tamaño de la fuente de la etiqueta
-                              fontWeight: FontWeight
-                                  .bold, // Peso de la fuente de la etiqueta
-                            ),
-                            // Establecer el color del texto del TextField
-                            // Aquí establecemos el color del texto del TextField como blanco
-                            // Puedes ajustar el estilo según tus preferencias
-                            hintStyle: TextStyle(color: Colors.white),
-                            // Puedes agregar más estilos según sea necesario
-                          ),
-                          style: TextStyle(
-                            color: Colors.white, // Color del texto
-                            fontSize: 14.0, // Tamaño de la fuente
-                            fontWeight: FontWeight.bold, // Peso de la fuente
-                          )),
-                    ),
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                            left: 25.0, top: 30.0, right: 25.0),
-                        child: Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RegisterPage()));
+                        )),
+                  ),
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 25.0, top: 30.0, right: 25.0),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                // Obtener las credenciales del controlador
+                                String phone = _numberController.text;
+                                String password = _passwordController.text;
+
+                                // Validar las credenciales
+                                if (phone.isEmpty) {
+                                  _showErrorDialog(context,
+                                      'Por favor ingresa tu número de teléfono');
+                                  return;
+                                }
+
+                                if (phone.length < 10) {
+                                  _showErrorDialog(context,
+                                      'El número de teléfono debe ser de un mínimo de 10 dígitos');
+                                  return;
+                                }
+
+                                if (password.isEmpty) {
+                                  _showErrorDialog(context,
+                                      'Por favor ingresa tu contraseña');
+                                  return;
+                                }
+
+                                
+                                if (password.length < 8) {
+                                  _showErrorDialog(context,
+                                      'Por favor ingresa tu contraseña');
+                                  return;
+                                }
+
+                                // Aquí puedes agregar más validaciones específicas si es necesario
+                                // Por ejemplo, validar el formato del número de teléfono o la longitud de la contraseña
+
+                                // Si las validaciones pasan, proceder con la autenticación
+                                var _localAuthentication =
+                                    LocalAuthentication();
+                                bool isAuthentication =
+                                    await _localAuthentication.authenticate(
+                                  localizedReason: "Autenticarse para acceder",
+                                );
+                                print(isAuthentication);
+
+                                if (isAuthentication) {
+                                  final credentials = LoginDTO(
+                                    phone: phone,
+                                    password: password,
+                                  );
+                                  BlocProvider.of<LoginBloc>(context)
+                                      .add(LoginSubmitted(credentials));
+                                } else {
+                                  _showErrorDialog(
+                                      context, 'No se puede iniciar sesión.');
+                                }
                               },
                               child: Text(
-                                'Crear cuenta',
+                                'Entrar',
                                 style: TextStyle(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.cyan,
                               ),
                             ),
-                            SizedBox(height: 20),
-                            GestureDetector(
-                              onTap: () {},
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                var isAuthentication =
-                                    await _localAuthentication.authenticate(
-                                  localizedReason: "Autenticarse para acceder",
-                                );
-                              print(isAuthentication);
-                                if (isAuthentication) {
-                                  final credentials = LoginDTO(
-                                      phone: _numberController.text,
-                                      password: _passwordController.text);
-                                  BlocProvider.of<LoginBloc>(context)
-                                      .add(LoginSubmitted(credentials));
-                                } else {
-                                  AlertDialog(
-                                    title: const Text('No se puedo reconocer'),
-                                    content: const Text(
-                                        'No se puede iniciar sesión.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              },
-                                child: Text(
-                                  'Entrar',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.cyan,
-                                ),
-                              ),
+                          ),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RegisterPage()));
+                            },
+                            child: Text(
+                              'Crear cuenta',
+                              style: TextStyle(color: Colors.white),
                             ),
-                            const SizedBox(height: 35.0)
-                          ],
-                        ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.cyan,
+                            ),
+                          ),
+                          const SizedBox(height: 35.0)
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+void _showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Error'),
+      content: Text(message),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}

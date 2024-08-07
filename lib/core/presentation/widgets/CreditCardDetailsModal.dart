@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CreditCardDetailsDialog extends StatelessWidget {
   final String cardNumber;
@@ -34,9 +35,16 @@ class CreditCardDetailsDialog extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'Número de tarjeta: $cardNumber',
-              style: TextStyle(fontSize: 16),
+          'Número de tarjeta: ',
+          style: TextStyle(fontSize: 16),
+        ),SelectableText(
+            cardNumber,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
+          ),
             SizedBox(height: 8),
             Text(
               'Titular de la tarjeta: $cardHolder',
@@ -54,9 +62,17 @@ class CreditCardDetailsDialog extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'Número de cuenta: $accountNumber',
+              'Número de cuenta: ',
               style: TextStyle(fontSize: 16),
             ),
+            SelectableText(
+            accountNumber,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
             SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -96,3 +112,6 @@ void showCreditCardDetailsDialog(BuildContext context, {
     },
   );
 }
+
+
+

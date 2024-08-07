@@ -177,6 +177,10 @@ class transfersRepository implements implTransfersRepository {
               {
                   message = 'La cuenta no existe. Verifica el número e inténtalo de nuevo.';
               }
+              else if(message.contains('insufficient'))
+              {
+                 message = 'Fondos insuficientes';
+              }
               else{
                   message = 'No se pudo realizar la acción, inténtalo más tarde';
               }

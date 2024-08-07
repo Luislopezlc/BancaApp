@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/data/models/respositories/servicesRepository.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/postServiceDTO.dart';
 import 'package:flutter_application_1/core/domain/models/servicePaymentModel.dart';
@@ -147,29 +148,53 @@ class _MyServicePayState extends State<MyServicePay> {
 
   TextEditingController referenceController = TextEditingController();
   TextEditingController amountController = TextEditingController();
-
+final _formKey = GlobalKey<FormState>();
     showDialog(
       context: _context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Pagar $serviceName'),
-          content:  Column(
+          content:  Form(
+          key: _formKey,
+          child:Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TextField(
+               TextFormField(
                 decoration: InputDecoration(labelText: 'Nombre del titular'),
+                 validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa el titular';
+                }
+                return null;
+              },
               ),
-              TextField(
+              TextFormField(
                 controller: referenceController,
                 decoration: InputDecoration(labelText: 'Número de referencia'),
+                validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa el número de referencia';
+                }
+                return null;
+              },
               ),
-              TextField(
+              TextFormField(
                 controller: amountController,
                 decoration: InputDecoration(labelText: 'Monto a pagar'),
-                keyboardType: TextInputType.number,
+               keyboardType: TextInputType.number, // Muestra el teclado numérico
+              inputFormatters: <TextInputFormatter>[
+                 FilteringTextInputFormatter.digitsOnly,
+              ],
+               validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa el monto';
+                }
+                return null;
+              },
               ),
             ],
+          ),
           ),
           actions: <Widget>[
             TextButton(
@@ -180,6 +205,7 @@ class _MyServicePayState extends State<MyServicePay> {
             ),
             ElevatedButton(
               onPressed: () {
+                 if (_formKey.currentState!.validate()) {
                 Navigator.of(context).pop();
 
                 PostServiceDTO services = PostServiceDTO(
@@ -191,6 +217,7 @@ class _MyServicePayState extends State<MyServicePay> {
 
                 BlocProvider.of<ListServicesBloc>(_context)
                     .add(PostServiceEvent(services));
+                 }
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

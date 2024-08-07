@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/data/models/respositories/registerRepository.dart';
 import 'package:flutter_application_1/core/domain/models/registerModel.dart';
 import 'package:flutter_application_1/core/domain/usecases/load_register_data.dart';
@@ -125,9 +126,19 @@ Widget buildView(
                 if (value == null || value.isEmpty) {
                   return 'Ingresa tu nombre';
                 }
+
+                // Expresión regular para validar que el nombre no contenga números
+                final namePattern = r"^[A-Za-z\s]+$";
+                final regExp = RegExp(namePattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'El nombre no puede contener números';
+                }
+
                 return null;
               },
             ),
+            const SizedBox(height: 15),
             TextFormField(
               controller: lastnameControl,
               decoration: InputDecoration(
@@ -141,9 +152,19 @@ Widget buildView(
                 if (value == null || value.isEmpty) {
                   return 'Ingresa tu apellido';
                 }
+
+                // Expresión regular para validar que el nombre no contenga números
+                final namePattern = r"^[A-Za-z\s]+$";
+                final regExp = RegExp(namePattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'El apellido no puede contener números';
+                }
+
                 return null;
               },
             ),
+            const SizedBox(height: 15),
             TextFormField(
               controller: emailControl,
               decoration: InputDecoration(
@@ -160,12 +181,12 @@ Widget buildView(
                 final emailRegExp =
                     RegExp(r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
                 if (!emailRegExp.hasMatch(value)) {
-                  return 'Correo invalido';
+                  return 'Correo inválido';
                 }
                 return null;
               },
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 20),
             TextFormField(
               controller: rfcControl,
               decoration: InputDecoration(
@@ -179,29 +200,50 @@ Widget buildView(
                 if (value == null || value.isEmpty) {
                   return 'Ingresa tu RFC';
                 }
+
+                // Expresión regular para validar el RFC
+                final rfcPattern = r"^[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}$";
+                final regExp = RegExp(rfcPattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'Ingresa un RFC válido';
+                }
+
                 return null;
               },
             ),
+            const SizedBox(height: 15),
             TextFormField(
               controller: phoneControl,
               decoration: InputDecoration(
-                labelText: 'Telefono',
+                labelText: 'Teléfono',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              keyboardType: TextInputType.phone,
+             keyboardType: TextInputType.number, // Muestra el teclado numérico
+              inputFormatters: <TextInputFormatter>[
+                 FilteringTextInputFormatter.digitsOnly, // Permite solo dígitos
+              ],
               maxLength: 13,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Ingresa tu numero de telefono';
+                  return 'Ingresa tu número de teléfono';
                 }
                 if (value.length < 10 || value.length > 13) {
-                  return 'El numero de telefono debe ser entre 10 t 13 digitos';
+                  return 'El número de teléfono debe ser entre 10 y 13 dígitos';
+                }
+                // Expresión regular para validar el formato del teléfono
+                final phonePattern = r"^\+?\d{10,13}$";
+                final regExp = RegExp(phonePattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'El teléfono debe ser un número de teléfono válido';
                 }
                 return null;
               },
             ),
+            const SizedBox(height: 15),
             TextFormField(
               controller: passwordControl,
               decoration: InputDecoration(
@@ -216,25 +258,27 @@ Widget buildView(
                   return 'Ingresa tu contraseña';
                 }
                 if (value.length < 8) {
-                  return 'La contraseña debe contener mas de 9 caracteres';
+                  return 'La contraseña debe contener más de 8 caracteres';
                 }
                 return null;
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                final registerModel = RegisterModel(
-                  name: nameControl.text,
-                  lastname: lastnameControl.text,
-                  email: emailControl.text, 
-                  rfc: rfcControl.text,
-                  phone: phoneControl.text,
-                  password: passwordControl.text,
-                  id_bank: 8,
-                );
-                BlocProvider.of<RegisterBloc>(context)
-                    .add(RegisterSubmitted(registerModel));
+                if (globalKey.currentState!.validate()) {
+                  final registerModel = RegisterModel(
+                    name: nameControl.text,
+                    lastname: lastnameControl.text,
+                    email: emailControl.text,
+                    rfc: rfcControl.text,
+                    phone: phoneControl.text,
+                    password: passwordControl.text,
+                    id_bank: 8,
+                  );
+                  BlocProvider.of<RegisterBloc>(context)
+                      .add(RegisterSubmitted(registerModel));
+                }
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -246,12 +290,13 @@ Widget buildView(
                 foregroundColor: Colors
                     .white, // Color del texto del botón cuando está en el estado primario
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * .05,
-                    vertical: 15), // Ajusta el relleno del botón
+                  horizontal: MediaQuery.of(context).size.width * .05,
+                  vertical: 15,
+                ), // Ajusta el relleno del botón
               ),
               child: Text('Crear'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),

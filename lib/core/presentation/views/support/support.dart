@@ -49,19 +49,6 @@ class _SupportPageState extends State<SupportPage> {
     return Material(
       child: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            title: const Text(
-              'Soporte',
-              style: TextStyle(
-                // Aquí puedes agregar los estilos que desees
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: Color.fromRGBO(124,77,246,1.000),
-            centerTitle: true,
-          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),

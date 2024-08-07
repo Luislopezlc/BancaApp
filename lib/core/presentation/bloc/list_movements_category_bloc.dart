@@ -17,7 +17,7 @@ class ListMovementsCategoryBloc
       List<MovementsCategoryModel> movements = [];
 
       var response = await loadListMovementsCategory.getMovementsCategory();
-      if(response.status == "200")
+      if(response.status != "200")
       {
         emit(ListMovementsCategoryError(response.message));
       }else

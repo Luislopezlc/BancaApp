@@ -75,6 +75,9 @@ class LoadListMovementsCategoryData{
      }
 
 
+    movements.add(tranferences);
+    movements.add(movementsPaidServices);
+
     result.data = movements;
     result.status = '200';
     return result;

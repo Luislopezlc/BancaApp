@@ -78,8 +78,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Perfil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Ajustes',
+            icon: Icon(Icons.support_agent),
+            label: 'Soporte',
           ),
         ],
         currentIndex: _selectedIndex,

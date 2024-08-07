@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/data/models/respositories/profileRepository.dart';
 import 'package:flutter_application_1/core/domain/models/apiModels/patchUserDTO.dart';
 import 'package:flutter_application_1/core/domain/models/profileModel.dart';
@@ -34,6 +35,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
   TextEditingController _emailController = TextEditingController(text: '');
   TextEditingController _phoneController = TextEditingController(text: '');
   TextEditingController _rFCController = TextEditingController(text: '');
+  final _formKey = GlobalKey<FormState>();
   final String _profileImageUrl =
       'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'; // URL de la imagen de perfil del usuario
 
@@ -120,7 +122,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
       child: Material(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
+          child: Form(
+        key: _formKey, 
+        child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               CircleAvatar(
@@ -128,11 +132,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 backgroundImage: NetworkImage(_profileImageUrl),
               ),
               const SizedBox(height: 20),
-              _buildProfileTextField('Nombre', _nameController),
-              _buildProfileTextField('Apellido', _lastnameController),
-              _buildProfileTextField('Correo Electrónico', _emailController),
-              _buildProfileTextField('Número de Teléfono', _phoneController),
-              _buildProfileTextField('RFC', _rFCController),
+              _buildProfileTextFieldName('Nombre', _nameController),
+              _buildProfileTextFieldLastname('Apellido', _lastnameController),
+              _buildProfileTextFieldEmail('Correo Electrónico', _emailController),
+              _buildProfileTextFieldPhone('Número de Teléfono', _phoneController),
+              _buildProfileTextFieldRFC('RFC', _rFCController),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -140,22 +144,30 @@ class _MyProfilePageState extends State<MyProfilePage> {
                   ElevatedButton(
                     onPressed: lockButton ? () {
                      // _saveProfileData();
-                      PatchUserDTO user = PatchUserDTO(
-                        name: _nameController.text,
-                        lastname: _lastnameController.text,
-                        email: _emailController.text,
-                        rfc: _rFCController.text,
-                        phone: _phoneController.text);
-                      
-                      BlocProvider.of<ProfileBloc>(context)
-                    .add(UpdateUserEvent(user));
 
+                       if (_formKey.currentState!.validate()) {
+                  // El formulario es válido, procede a enviar los datos
+                  PatchUserDTO user = PatchUserDTO(
+                    name: _nameController.text,
+                    lastname: _lastnameController.text,
+                    email: _emailController.text,
+                    rfc: _rFCController.text,
+                    phone: _phoneController.text,
+                  );
+                  BlocProvider.of<ProfileBloc>(context).add(UpdateUserEvent(user));
+                } else {
+                  // Mostrar un mensaje de error si el formulario no es válido
+                  ToastMessageWidget.show(context, 'Por favor corrija los errores en el formulario.');
+                }
                     } : null,
                     child: lockButton ? const Text('Guardar') : const CircularProgressIndicator(),
                   ),
-                ],
+                ],              
               ),
+                   const SizedBox(height: 15),
+
             ],
+          ),
           ),
         ),
       ),
@@ -175,6 +187,161 @@ class _MyProfilePageState extends State<MyProfilePage> {
       ),
     );
   }
+
+
+  Widget _buildProfileTextFieldName(
+    String label, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      maxLength: 50, // Limita la longitud máxima del texto a 50 caracteres
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'El nombre no debe estar vacío';
+        }
+        if (value.length > 50) {
+          return 'El nombre debe tener 50 caracteres o menos';
+        }
+         final namePattern = r"^[A-Za-z\s]+$";
+                final regExp = RegExp(namePattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'El nombre no puede contener números';
+                }
+        return null; // Si todas las validaciones pasan, no devuelve ningún mensaje de error
+      },
+    ),
+  );
+}
+
+ Widget _buildProfileTextFieldLastname(
+    String label, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      maxLength: 50, // Limita la longitud máxima del texto a 50 caracteres
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'El apellido no debe estar vacío';
+        }
+        if (value.length > 50) {
+          return 'El apellido debe tener 50 caracteres o menos';
+        }
+         final namePattern = r"^[A-Za-z\s]+$";
+                final regExp = RegExp(namePattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'El apellido no puede contener números';
+                }
+        return null; // Si todas las validaciones pasan, no devuelve ningún mensaje de error
+      },
+    ),
+  );
+}
+
+Widget _buildProfileTextFieldEmail(
+    String label, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa tu correo';
+                }
+                final emailRegExp =
+                    RegExp(r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
+                if (!emailRegExp.hasMatch(value)) {
+                  return 'Correo inválido';
+                }
+                return null;
+              },
+    ),
+  );
+}
+
+Widget _buildProfileTextFieldPhone(
+    String label, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+       keyboardType: TextInputType.number, // Muestra el teclado numérico
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly, // Permite solo dígitos
+              ],
+       maxLength: 13,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa tu número de teléfono';
+                }
+                if (value.length < 10 || value.length > 13) {
+                  return 'El número de teléfono debe ser entre 10 y 13 dígitos';
+                }
+                // Expresión regular para validar el formato del teléfono
+                final phonePattern = r"^\+?\d{10,13}$";
+                final regExp = RegExp(phonePattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'El teléfono debe ser un número de teléfono válido';
+                }
+                return null;
+              },
+    ),
+  );
+}
+
+Widget _buildProfileTextFieldRFC(
+    String label, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+              maxLength: 13,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa tu RFC';
+                }
+
+                // Expresión regular para validar el RFC
+                final rfcPattern = r"^[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}$";
+                final regExp = RegExp(rfcPattern);
+
+                if (!regExp.hasMatch(value)) {
+                  return 'Ingresa un RFC válido';
+                }
+
+                return null;
+              },
+    ),
+  );
+}
+
+
+
 
   void _saveProfileData(String message) {
     showDialog(

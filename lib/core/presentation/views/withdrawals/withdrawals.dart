@@ -7,6 +7,7 @@ import "package:flutter_application_1/core/presentation/bloc/withdrawal_event.da
 import "package:flutter_application_1/core/presentation/bloc/withdrawal_state.dart";
 import "package:flutter_application_1/core/presentation/views/withdrawals/WithdrawalPage.dart";
 import "package:flutter_application_1/core/presentation/views/withdrawals/cardwihdrawals.dart";
+import "package:flutter_application_1/core/presentation/widgets/ToastMessageWidget.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class Withdrawals extends StatefulWidget {
@@ -15,6 +16,7 @@ class Withdrawals extends StatefulWidget {
 
 class _Withdrawals extends State<Withdrawals> {
   final TextEditingController _controller = TextEditingController();
+   final _formKey = GlobalKey<FormState>();
   final FocusNode _focusNode = FocusNode();
   void dispose() {
     _controller.dispose();
@@ -170,12 +172,14 @@ class _Withdrawals extends State<Withdrawals> {
         SizedBox(height: 20),
         Container(
           width: MediaQuery.of(context).size.width * 0.6,
-          child: Column(
+          child: Form(
+        key: _formKey,
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Stack(
                 children: [
-                  TextField(
+                  TextFormField(
                     controller: _controller,
                     focusNode: _focusNode,
                     keyboardType: TextInputType.number,
@@ -191,6 +195,19 @@ class _Withdrawals extends State<Withdrawals> {
                       // TextInputFormatter que agrega un "$" al principio del texto
                       FilteringTextInputFormatter.deny(RegExp(r'[^0-9\$]')),
                     ],
+                    validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingresa un monto';
+                }
+                final intValue = int.tryParse(value);
+                  if (intValue == null) {
+                    return 'Ingresa un número válido';
+                  }
+                  if (intValue % 100 != 0) {
+                    return 'El monto debe ser un múltiplo de 100';
+                  }
+                return null;
+              },
                   ),
                   SizedBox(height: 1),
                 ],
@@ -220,7 +237,14 @@ class _Withdrawals extends State<Withdrawals> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Acción cuando se presiona el botón
+                        if (_formKey.currentState!.validate()) {
+                          if(double.parse(_controller.text) > state.maxAmountToRetire)
+                          {
+                              ToastMessageWidget.show(context, "No se puede retirar esta cantidad");
+                          }else{
                     navigateToWithdrawalPage(double.parse(_controller.text));
+                          }
+                        }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -241,6 +265,7 @@ class _Withdrawals extends State<Withdrawals> {
               )
             ],
           ),
+        ),
         ),
       ]),)
     );

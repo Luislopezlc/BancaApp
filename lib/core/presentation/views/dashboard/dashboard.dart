@@ -82,14 +82,14 @@ Widget builDashboard(BuildContext context, DashboardModel model) {
     child: Column(
       children: [
         Container(
-          color: Color.fromRGBO(124, 77, 246, 1.000),
+          color: const Color.fromRGBO(124, 77, 246, 1.000),
           width: MediaQuery.of(context).size.width * 1,
           height: MediaQuery.of(context).size.height * 0.2,
           child: Column(
             children: [
               Text(
                 'Hola, ' + model.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -98,16 +98,17 @@ Widget builDashboard(BuildContext context, DashboardModel model) {
               SizedBox(height: 24),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     'Tu dinero',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     '\$${model.totalAmount}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ],
               ),
@@ -117,7 +118,7 @@ Widget builDashboard(BuildContext context, DashboardModel model) {
         Center(
           child: Container(
             color: Colors.white,
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -176,15 +177,15 @@ Widget builDashboard(BuildContext context, DashboardModel model) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Mi día a día',
+                const Text(
+                  'Historial',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Ingresos',
                       style: TextStyle(
                         fontSize: 15,
@@ -194,7 +195,7 @@ Widget builDashboard(BuildContext context, DashboardModel model) {
                     ),
                     Text(
                       '\$${model.income}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -202,11 +203,11 @@ Widget builDashboard(BuildContext context, DashboardModel model) {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Gastos',
                       style: TextStyle(
                         fontSize: 15,
