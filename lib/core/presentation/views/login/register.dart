@@ -227,7 +227,7 @@ Widget buildView(
                 final registerModel = RegisterModel(
                   name: nameControl.text,
                   lastname: lastnameControl.text,
-                  email: emailControl.text,
+                  email: emailControl.text, 
                   rfc: rfcControl.text,
                   phone: phoneControl.text,
                   password: passwordControl.text,

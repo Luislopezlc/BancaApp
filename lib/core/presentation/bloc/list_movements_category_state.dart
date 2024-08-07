@@ -1,27 +1,26 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_application_1/core/domain/models/listMovementsCategory.dart';
+import 'package:flutter_application_1/core/domain/models/movementsCategoryModel.dart';
 
 class ListMovementsCategoryState extends Equatable {
-  final ListMovementsCategoryModel movements;
 
-  ListMovementsCategoryState({
-    ListMovementsCategoryModel? movements,
-  }) : movements = movements ?? ListMovementsCategoryModel(movements: []);
-
-  factory ListMovementsCategoryState.fromModel(ListMovementsCategoryModel model) {
-    return ListMovementsCategoryState(
-      movements: model,
-    );
-  }
-
-  ListMovementsCategoryState copyWith({
-    ListMovementsCategoryModel? movements,
-  }) {
-    return ListMovementsCategoryState(
-      movements: movements ?? this.movements,
-    );
-  }
+ const ListMovementsCategoryState();
 
   @override
+  List<Object?> get props => [];
+}
+
+class ListMovementsCategoryInitial extends ListMovementsCategoryState{}
+class ListMovementsCategoryLoading extends ListMovementsCategoryState{}
+class ListMovementsCategoryLoaded extends ListMovementsCategoryState{
+  final List<MovementsCategoryModel> movements; 
+  const ListMovementsCategoryLoaded(this.movements);
+     @override
   List<Object?> get props => [movements];
+}
+class ListMovementsCategoryError extends ListMovementsCategoryState{
+  final String message;
+  const ListMovementsCategoryError(this.message);
+    @override
+  List<Object?> get props => [message];
 }

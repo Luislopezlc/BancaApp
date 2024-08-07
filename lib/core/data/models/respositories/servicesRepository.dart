@@ -97,7 +97,7 @@ class servicesRepository implements implServicesRepository {
 
           if(filterByUser)
           {
-            result.data = services.where((element) => element.idUsers == idUser).toList();
+            result.data = services.where((x) => x.idUsers == idUser).toList();
           }else
           {
             result.data = services;
